@@ -22,6 +22,10 @@ jobs:
   terraform:
     name: Deploy Infrastructure
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: .terraform
     steps:
       - uses: actions/checkout@v3
       - name: Configure AWS credentials
@@ -30,10 +34,31 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+
       - uses: hashicorp/setup-terraform@v3
+
       - name: Terraform Init
-        run: terraform init
+        run: terraform init --backend-config="bucket=${BUCKET_TF_STATE}"
+        id: init
+
+      - name: Terraform format
+        run: terraform fmt -check
+        id: fmt
+
+      - name: Terraform Validate
+        run: terraform validate
+        id: validate
+
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -no-color -input=false -out=tfplan
+        continue-on-error: true
+        id: plan
+
+      - name: terraform plan status
+        if: steps.plan.outputs == 'failure'
+        run: exit 1
+        id: plan-status
+
+
   
 
