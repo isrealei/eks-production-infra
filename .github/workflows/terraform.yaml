@@ -63,6 +63,16 @@ jobs:
         run: exit 1
         id: plan-status
 
+      - name: Terraform Apply
+        if: steps.plan-status.outputs != 'failure'
+        run: terraform apply -auto-approve planfile
+        id: apply
+
+      - name: Terraform Destroy
+        if: steps.plan-status.outputs == 'failure'
+        run: terraform destroy -auto-approve
+        id: destroy
+
 
   
 
