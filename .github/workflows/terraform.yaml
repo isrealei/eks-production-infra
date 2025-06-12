@@ -69,7 +69,6 @@ jobs:
         id: apply
 
       - name: Terraform Destroy
-        if: steps.plan-status.outputs == 'failure'
         run: terraform destroy -auto-approve
         id: destroy
 
