@@ -50,7 +50,7 @@ jobs:
         id: validate
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false -out=tfplan
+        run: terraform plan -no-color -input=false -out planfile
         continue-on-error: true
         id: plan
 
