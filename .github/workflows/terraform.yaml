@@ -38,7 +38,11 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        run: terraform init --backend-config="bucket=${BUCKET_TF_STATE}"
+        run: |
+          terraform init \
+            --backend-config="bucket=${BUCKET_TF_STATE}" \
+            --backend-config="key=dev/terraform.tfstate" \
+            --backend-config="region=us-east-1"
         id: init
 
       - name: Terraform format
