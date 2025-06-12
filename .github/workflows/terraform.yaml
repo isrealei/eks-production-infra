@@ -25,7 +25,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: .infra-live2/dev
+        working-directory: ./infra-live2/dev
     steps:
       - uses: actions/checkout@v3
       - name: Configure AWS credentials
