@@ -37,8 +37,7 @@ jobs:
           aws-region: us-east-1
 
       - uses: hashicorp/setup-terraform@v3
-        with:
-          cterraform_version: 1.4.2
+    
 
       - name: Terraform Init
         run: |
@@ -46,7 +45,6 @@ jobs:
             --backend-config="bucket=${BUCKET_TF_STATE}" \
             --backend-config="key=dev/terraform.tfstate" \
             --backend-config="region=us-east-1" \
-            --backend-config="encrypt=true" \
             --backend-config="dynamodb_table=${DYNAMO_DB_LOCK}"
         id: init
 
