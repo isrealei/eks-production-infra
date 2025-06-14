@@ -37,6 +37,8 @@ jobs:
           aws-region: us-east-1
 
       - uses: hashicorp/setup-terraform@v3
+        with:
+          cterraform_version: 1.4.2
 
       - name: Terraform Init
         run: |
