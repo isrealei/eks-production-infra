@@ -11,8 +11,8 @@ module "vpc" {
 }
 
 module "eks" {
-  source = "../../modules/eks"
-  depends_on = [ module.vpc ]
+  source     = "../../modules/eks"
+  depends_on = [module.vpc]
 
   cluster_name       = "barilon"
   eks_version        = "1.33"
