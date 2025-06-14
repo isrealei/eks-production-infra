@@ -12,11 +12,15 @@ on:
       - 'infra-live2/**'
   
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: us-east-1
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  AWS_ROLE_NAME: ${{ secrets.AWS_ROLE_NAME }}
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   terraform:
@@ -27,17 +31,21 @@ jobs:
         shell: bash
         working-directory: ./infra-live2/dev
     steps:
-      - uses: actions/checkout@v3
-      - name: Configure AWS credentials
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials using OIDC
+        # This step assumes you have set up an IAM role for GitHub Actions to assume
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ROLE_NAME }}
+          rolse-session-name: GitHubActionsSession
+          aws-region: ${AWS_DEFAULT_REGION}
 
-      - uses: hashicorp/setup-terraform@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        
     
-
       - name: Terraform Init
         run: |
           terraform init \
