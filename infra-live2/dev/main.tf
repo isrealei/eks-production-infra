@@ -12,10 +12,11 @@ module "vpc" {
 
 module "eks" {
   source = "../../modules/eks"
+  depends_on = [ module.vpc ]
 
   cluster_name       = "barilon"
   eks_version        = "1.33"
-  subnet_ids         = module.vpc.aws_subnets_private
+  subnet_ids         = module.vpc.private_subnet_ids
   principal_arn      = "arn:aws:iam::871983391852:user/admin"
   principal_arn_name = "admin"
   node_groups = {
