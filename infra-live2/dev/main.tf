@@ -10,3 +10,26 @@ module "vpc" {
   create_for_eks       = true
 }
 
+module "eks" {
+  source = "../../modules/eks"
+
+  cluster_name       = "barilon"
+  eks_version        = "1.33"
+  subnet_ids         = module.vpc.aws_subnets_private
+  principal_arn      = "arn:aws:iam::871983391852:user/admin"
+  principal_arn_name = "admin"
+  node_groups = {
+    node1 = {
+      instance_types = ["t2.micro"]
+      capacity_type  = "ON_DEMAND"
+      scaling_config = {
+        desired_size = 2
+        max_size     = 6
+        min_size     = 2
+      }
+    }
+  }
+}
+
+
+

@@ -29,12 +29,12 @@ variable "principal_arn" {
 
 variable "principal_arn_name" {
   description = "This is the principal arn name for cluster admin"
-  type = string
+  type        = string
 }
 
 variable "eks_version" {
   description = "This is the value for the eks cluster"
-  type = string
+  type        = string
 }
 
 

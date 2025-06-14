@@ -27,9 +27,9 @@ resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
 resource "aws_eks_cluster" "cluster" {
   name = var.cluster_name
 
-    access_config {
-      authentication_mode = "API"
-    }
+  access_config {
+    authentication_mode = "API"
+  }
 
   role_arn = aws_iam_role.cluster.arn
   version  = var.eks_version
@@ -135,14 +135,14 @@ resource "aws_eks_fargate_profile" "fargate" {
 
 resource "aws_eks_access_entry" "example" {
   cluster_name  = aws_eks_cluster.cluster.name
-  principal_arn = var.principal_arn  
-  user_name = var.principal_arn_name
+  principal_arn = var.principal_arn
+  user_name     = var.principal_arn_name
 }
 
 resource "aws_eks_access_policy_association" "example" {
-  cluster_name   = aws_eks_cluster.cluster.name
-  principal_arn  = aws_eks_access_entry.example.principal_arn
-  policy_arn     = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  cluster_name  = aws_eks_cluster.cluster.name
+  principal_arn = aws_eks_access_entry.example.principal_arn
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 
   access_scope {
     type = "cluster"
