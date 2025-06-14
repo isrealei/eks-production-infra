@@ -17,7 +17,6 @@ env:
   AWS_DEFAULT_REGION: us-east-1
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
 
 jobs:
   terraform:
@@ -44,8 +43,7 @@ jobs:
           terraform init \
             --backend-config="bucket=${BUCKET_TF_STATE}" \
             --backend-config="key=dev/terraform.tfstate" \
-            --backend-config="region=us-east-1" \
-            --backend-config="dynamodb_table=${DYNAMO_DB_LOCK}"
+            --backend-config="region=us-east-1"
         id: init
 
       - name: Terraform format
