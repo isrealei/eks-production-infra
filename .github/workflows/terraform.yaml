@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - 'infra-live2/**'
+      - '.github/workflows/terraform.yaml'
   pull_request:
     branches:
       - main
@@ -16,15 +17,15 @@ env:
   AWS_ROLE_NAME: ${{ secrets.AWS_ROLE_NAME }}
   AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
-  # DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
+  DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  terraform:
-    name: Deploy Infrastructure
+  terraform-vpc:
+    name: Deploy VPC Infrastructure
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -41,7 +42,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ROLE_NAME }}
           rolse-session-name: GitHubActionsSession
           aws-region: us-east-1
-          
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         
@@ -51,7 +52,8 @@ jobs:
           terraform init \
             --backend-config="bucket=${BUCKET_TF_STATE}" \
             --backend-config="key=dev/terraform.tfstate" \
-            --backend-config="region=us-east-1"
+            --backend-config="region=us-east-1" \
+            --backend-config="dynamodb_table=${DYNAMO_DB_LOCK}" \
         id: init
 
       - name: Terraform format
