@@ -21,12 +21,12 @@ module "eks" {
   principal_arn_name = "admin"
   node_groups = {
     node1 = {
-      instance_types = ["t2.micro"]
+      instance_types = ["t2.large"]
       capacity_type  = "ON_DEMAND"
       scaling_config = {
         desired_size = 2
         max_size     = 6
-        min_size     = 2
+        min_size     = 6
       }
     }
   }
