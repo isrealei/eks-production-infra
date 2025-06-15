@@ -139,6 +139,7 @@ resource "aws_eks_access_entry" "example" {
   user_name     = var.principal_arn_name
 }
 
+
 resource "aws_eks_access_policy_association" "example" {
   cluster_name  = aws_eks_cluster.cluster.name
   principal_arn = aws_eks_access_entry.example.principal_arn
