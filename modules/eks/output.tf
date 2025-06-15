@@ -19,3 +19,11 @@ output "oidc_issuer" {
 output "oidc_provider_arn" {
   value = aws_iam_openid_connect_provider.this.arn
 }
+
+output "cluster_ca_certificate" {
+  value = aws_eks_cluster.cluster.certificate_authority[0].data
+}
+
+output "cluster" {
+  value = aws_eks_cluster.cluster
+}

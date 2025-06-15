@@ -19,6 +19,7 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(module.eks.cluster_ca_certificate)
   token                  = data.aws_eks_cluster_auth.cluster.token
 }
+# d
 
 data "aws_region" "current" {}
 
