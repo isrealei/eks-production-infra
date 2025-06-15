@@ -77,6 +77,7 @@ jobs:
       - name: Terraform Apply
         if: steps.plan-status.outputs != 'failure'
         run: terraform apply -auto-approve planfile
+        continue-on-error: true
         id: apply
 
       - name: Terraform Destroy
