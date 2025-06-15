@@ -24,8 +24,8 @@ module "eks" {
       instance_types = ["t2.large"]
       capacity_type  = "ON_DEMAND"
       scaling_config = {
-        desired_size = 2
-        max_size     = 6
+        desired_size = 6
+        max_size     = 14
         min_size     = 6
       }
     }
