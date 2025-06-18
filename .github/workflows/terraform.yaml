@@ -36,6 +36,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Terraform security scan
+        uses: triat/terraform-security-scan@v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
       - name: Configure AWS credentials using OIDC
         # This step assumes you have set up an IAM role for GitHub Actions to assume
         uses: aws-actions/configure-aws-credentials@v1
