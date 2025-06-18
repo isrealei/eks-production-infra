@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - stage
+      - staging
     paths:
       - 'infra-live2/**'
       - '.github/workflows/terraform.yaml'
@@ -36,6 +36,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Terraform security scan
+        uses: aquasecurity/tfsec-action@v1.0.0
+        with:
+          soft_fail: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          working_directory: ./infra-live2/dev
+  
       - name: Configure AWS credentials using OIDC
         # This step assumes you have set up an IAM role for GitHub Actions to assume
         uses: aws-actions/configure-aws-credentials@v1
@@ -95,9 +102,10 @@ jobs:
         run: |
           kubectl get nodes -o wide
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve
-        id: destroy
+      # - name: Terraform Destroy
+      #   run: terraform destroy -auto-approve
+        # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   id: destroy
 
 
   

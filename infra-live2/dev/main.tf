@@ -10,6 +10,7 @@ module "vpc" {
   create_for_eks       = true
 }
 
+
 module "eks" {
   source     = "../../modules/eks"
   depends_on = [module.vpc]
@@ -31,7 +32,6 @@ module "eks" {
     }
   }
 }
-
 
 
 module "eks_blueprints_addons" {
