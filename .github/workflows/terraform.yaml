@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - stage
+      - staging
     paths:
       - 'infra-live2/**'
       - '.github/workflows/terraform.yaml'
