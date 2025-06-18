@@ -3,7 +3,7 @@ module "vpc" {
 
   env                  = "dev"
   vpc-name             = "barlion"
-  cluster_name         = module.eks.cluster_name
+  cluster_name         = "barilon"
   azs                  = ["us-east-1a", "us-east-1b", "us-east-1c"]
   vpc-cidr             = "10.16.0.0/16"
   private-subnets-cidr = ["10.16.1.0/24", "10.16.2.0/24", "10.16.3.0/24"]
