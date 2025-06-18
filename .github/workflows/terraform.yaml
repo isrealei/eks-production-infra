@@ -102,10 +102,10 @@ jobs:
         run: |
           kubectl get nodes -o wide
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        id: destroy
+      # - name: Terraform Destroy
+      #   run: terraform destroy -auto-approve
+        # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   id: destroy
 
 
   
