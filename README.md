@@ -1,4 +1,4 @@
-# Infrastructure Modules
+# eks-production-infra
 
 ## Overview
 
@@ -77,6 +77,20 @@ GitHub Actions automate the deployment pipeline:
 
 Workflow YAMLs are stored in `.github/workflows/`.
 
+### 🔐 Secure Authentication with OIDC
+
+This project uses **GitHub Actions with OIDC (OpenID Connect)** to authenticate with AWS — instead of hardcoding or storing long-lived AWS credentials.
+
+#### Why OIDC?
+
+- **No stored secrets**: Credentials are not checked into the repo or stored in GitHub.
+- **Short-lived, scoped access**: AWS issues temporary credentials valid only for the duration of the job.
+- **Improved security posture**: Reduces the risk of credential leakage and meets compliance best practices.
+- **Native AWS support**: AWS now supports direct GitHub OIDC integration via IAM roles and identity providers.
+
+> This approach follows the principle of **least privilege** and aligns with [AWS’s recommended best practices for CI/CD](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html).
+
+
 ---
 
 ## 🧩 EKS Add-ons via AWS Blueprints
@@ -97,6 +111,7 @@ This ensures the cluster is fully production-ready from the start.
 - Modular and reusable Terraform codebase
 - DRY multi-environment setup using Terragrunt
 - End-to-end GitOps workflow with GitHub Actions
+- GitHub Actions use **OIDC-based AWS authentication** — eliminating static credentials, improving security, and aligning with AWS IAM best practices
 - Real-world production considerations baked in
 - Easily extendable to other AWS components (e.g., RDS, S3, IAM)
 
