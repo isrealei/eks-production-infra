@@ -88,19 +88,19 @@ jobs:
         continue-on-error: true
         id: apply
 
-      - name: Get kubeconfig
-        if: steps.apply.outcome == 'success'
-        run: |
-          aws eks update-kubeconfig --region ${AWS_REGION} --name ${EKS_CLUSTER}
-        env:
-          AWS_REGION: us-east-1
-          EKS_CLUSTER: barilon
-        id: kubeconfig  
+      # - name: Get kubeconfig
+      #   if: steps.apply.outcome == 'success'
+      #   run: |
+      #     aws eks update-kubeconfig --region ${AWS_REGION} --name ${EKS_CLUSTER}
+      #   env:
+      #     AWS_REGION: us-east-1
+      #     EKS_CLUSTER: barilon
+      #   id: kubeconfig  
       
-      - name: use kubectl to apply manifests
-        if: steps.apply.outcome == 'success'
-        run: |
-          kubectl get nodes -o wide
+      # - name: use kubectl to apply manifests
+      #   if: steps.apply.outcome == 'success'
+      #   run: |
+      #     kubectl get nodes -o wide
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve

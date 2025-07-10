@@ -60,7 +60,7 @@ As a lead DevOps engineer, this project serves as a real-world showcase of how t
 > **Why Terragrunt?**  
 > Terragrunt simplifies environment and state management, reduces duplication, and enforces best practices.
 
-### **2. `infra-live2/` (Plain Terraform)**
+### **2. `infra-live2/` (Plain Terraform with GitHub Actions)**
 - Direct use of Terraform modules.
 - Easier for simpler environments or one-off deployments.
 - Good for demos or beginners.
