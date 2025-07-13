@@ -1,35 +1,35 @@
 variable "env" {
-  type    = string
- description = "value for environment"
+  type        = string
+  description = "value for environment"
 }
 
 variable "vpc-name" {
-  type    = string
+  type        = string
   description = "value for vpc name"
 }
 
 variable "cluster_name" {
-  type    = string
+  type        = string
   description = "value for cluster name"
 }
 
 variable "azs" {
-  type    = list(string)
+  type        = list(string)
   description = "values for availability zones"
 }
 
 variable "vpc-cidr" {
-  type    = string
+  type        = string
   description = "value"
-  }
+}
 
 variable "private-subnets-cidr" {
-  type    = list(string)
+  type        = list(string)
   description = "values for private subnets cidr"
 }
 
 variable "public-subnets-cidr" {
-  type    = list(string)
+  type        = list(string)
   description = "values for public subnets cidr"
 }
 
