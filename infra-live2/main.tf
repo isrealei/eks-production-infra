@@ -1,5 +1,5 @@
 module "vpc" {
-  source = "../../modules/vpc"
+  source = "../modules/vpc"
 
   env                  = "dev"
   vpc-name             = "barlion"
@@ -12,7 +12,7 @@ module "vpc" {
 }
 
 module "eks" {
-  source     = "../../modules/eks"
+  source     = "../modules/eks"
   depends_on = [module.vpc]
 
   cluster_name       = "barilon"
