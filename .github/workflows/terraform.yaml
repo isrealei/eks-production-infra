@@ -34,7 +34,7 @@ jobs:
         working-directory: ./infra-live2/
     strategy:
       matrix:
-        environment: [dev, prod]
+        environment: [dev]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
