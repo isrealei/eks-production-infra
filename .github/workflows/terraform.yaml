@@ -76,9 +76,7 @@ jobs:
         id: validate
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false -out planfile --var-file="${ENV_NAME}"
-        env:
-          ENV_NAME: "../../vars/prod/prod.tfvars"
+        run: terraform plan -no-color -input=false -out planfile 
         continue-on-error: true
         id: plan
 
