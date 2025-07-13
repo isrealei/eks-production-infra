@@ -31,7 +31,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./infra-live2/dev
+        working-directory: ./infra-live2/
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -41,7 +41,7 @@ jobs:
         with:
           soft_fail: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          working_directory: ./infra-live2/dev
+          working_directory: ./infra-live2/
   
       - name: Configure AWS credentials using OIDC
         # This step assumes you have set up an IAM role for GitHub Actions to assume
