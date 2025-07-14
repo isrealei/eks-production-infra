@@ -75,7 +75,7 @@ jobs:
         id: validate
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false -out planfile --var-file=./infra-live2/vars/dev/dev.tfvars
+        run: terraform plan -no-color -input=false -out planfile --var-file=infra-live2/vars/dev/dev.tfvars
         id: plan
 
       - name: Terraform Apply
