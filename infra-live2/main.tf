@@ -45,9 +45,10 @@ module "eks_blueprints_addons" {
   oidc_provider_arn = module.eks.oidc_provider_arn
 
 
-  enable_kube_prometheus_stack = true
-  enable_metrics_server        = true
-  enable_argocd                = true
+  enable_aws_load_balancer_controller = true
+  enable_kube_prometheus_stack        = true
+  enable_metrics_server               = true
+  enable_argocd                       = true
 
 
   tags = {
