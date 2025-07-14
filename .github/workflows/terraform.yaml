@@ -35,7 +35,9 @@ jobs:
     strategy:
       matrix:
         environment: [prod]
+
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -46,7 +48,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           working_directory: ./infra-live2/
   
-      - name: Configure AWS credentials using OIDC
+      - name: Configure AWS credentials using OIDC to connect to AWS
         # This step assumes you have set up an IAM role for GitHub Actions to assume
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -76,7 +78,7 @@ jobs:
         id: validate
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false -out planfile 
+        run: terraform plan -no-color -input=false -out planfile --var-file=./infra-live2/vars/dev/dev.tfvars
         continue-on-error: true
         id: plan
 

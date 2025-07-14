@@ -51,7 +51,7 @@ resource "aws_subnet" "public-subnets" {
     },
     var.create_for_eks ? {
       "kubernetes.io/role/elb"                    = "1"
-      "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+      "kubernetes.io/cluster/${var.cluster_name}" = "shared"
     } : {}
   )
 }
