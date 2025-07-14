@@ -63,7 +63,7 @@ jobs:
             --backend-config="bucket=${BUCKET_TF_STATE}" \
             --backend-config="key=dev/terraform.tfstate" \
             --backend-config="region=us-east-1" \
-            --backend-config="dynamodb_table=${DYNAMO_DB_LOCK}" \
+            --backend-config="use_lock_table=true"\
         id: init
 
       - name: Terraform format
