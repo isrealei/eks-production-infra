@@ -75,7 +75,7 @@ jobs:
         id: validate
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false -out planfile  -lock=false
+        run: terraform plan -no-color -input=false -out planfile --var-file=vars/dev/dev.tfvars -lock=false
         id: plan
 
       - name: Terraform Apply
@@ -93,3 +93,4 @@ jobs:
   
 
 
+        
