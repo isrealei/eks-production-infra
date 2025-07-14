@@ -63,7 +63,7 @@ jobs:
             --backend-config="bucket=${BUCKET_TF_STATE}" \
             --backend-config="key=dev/terraform.tfstate" \
             --backend-config="region=us-east-1" \
-            --backend-config="use_lock_table=true"\
+            --backend-config="dynamodb_table=${DYNAMO_DB_LOCK}" \
         id: init
 
       - name: Terraform format
@@ -80,14 +80,14 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve planfile
+        run: terraform apply -auto-approve planfile -lock=false
         continue-on-error: true
         id: apply
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        id: destroy
+      # - name: Terraform Destroy
+      #   run: terraform destroy -auto-approve
+      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   id: destroy
 
 
   
