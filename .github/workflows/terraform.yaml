@@ -32,10 +32,7 @@ jobs:
       run:
         shell: bash
         working-directory: ./infra-live2/
-    strategy:
-      matrix:
-        environment: [prod]
-
+   
     steps:
 
       - name: Checkout code
@@ -79,33 +76,13 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -no-color -input=false -out planfile --var-file=./infra-live2/vars/dev/dev.tfvars
-        continue-on-error: true
         id: plan
-
-      - name: terraform plan status
-        if: steps.plan.outputs == 'failure'
-        run: exit 1
-        id: plan-status
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve planfile
         continue-on-error: true
         id: apply
-
-      # - name: Get kubeconfig
-      #   if: steps.apply.outcome == 'success'
-      #   run: |
-      #     aws eks update-kubeconfig --region ${AWS_REGION} --name ${EKS_CLUSTER}
-      #   env:
-      #     AWS_REGION: us-east-1
-      #     EKS_CLUSTER: barilon
-      #   id: kubeconfig  
-      
-      # - name: use kubectl to apply manifests
-      #   if: steps.apply.outcome == 'success'
-      #   run: |
-      #     kubectl get nodes -o wide
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
