@@ -1,4 +1,4 @@
-# eks-production-infra
+# Production-Ready EKS Infrastructure with Terraform & GitHub Actions
 
 ## Overview
 
