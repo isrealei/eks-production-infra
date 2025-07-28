@@ -14,8 +14,8 @@ resource "aws_vpc" "main" {
   tags = merge(
     local.common_tags,
     {
-      Environment = "production"
-      Owner       = "devops-team"
+      Environment                                               = "production"
+      Owner                                                     = "devops-team"
       "${format("kubernetes.io/cluster/%s", var.cluster_name)}" = "shared"
     }
   )

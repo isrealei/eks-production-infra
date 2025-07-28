@@ -46,16 +46,16 @@ module "eks_blueprints_addons" {
 
 
   enable_aws_load_balancer_controller = {
-    set =[
-      {name = "vpcId"
-      value = module.vpc.vpc_id
+    set = [
+      { name  = "vpcId"
+        value = module.vpc.vpc_id
       }
     ]
   }
-  
-  enable_kube_prometheus_stack        = true
-  enable_metrics_server               = true
-  enable_argocd                       = true
+
+  enable_kube_prometheus_stack = true
+  enable_metrics_server        = true
+  enable_argocd                = true
 
 
   tags = {

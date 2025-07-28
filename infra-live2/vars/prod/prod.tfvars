@@ -1,6 +1,6 @@
-env               = "prod"
-vpc-name          = "barlion"
-cluster_name      = "barilon"
+env          = "prod"
+vpc-name     = "barlion"
+cluster_name = "barilon"
 
 azs = [
   "us-east-1a",
