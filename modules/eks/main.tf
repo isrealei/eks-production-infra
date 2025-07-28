@@ -131,8 +131,7 @@ resource "aws_eks_fargate_profile" "fargate" {
 }
 
 
-# This is for the access policy
-
+# This is for the access policy for eks blueprint to deploy addons
 resource "aws_eks_access_entry" "example" {
   cluster_name  = aws_eks_cluster.cluster.name
   principal_arn = var.principal_arn
@@ -149,6 +148,23 @@ resource "aws_eks_access_policy_association" "example" {
     type = "cluster"
   }
 }
+
+resource "aws_eks_access_entry" "admin" {
+  cluster_name  = aws_eks_cluster.cluster.name
+  principal_arn = var.admin_arn
+  user_name     = "admin"
+}
+
+resource "aws_eks_access_policy_association" "admin" {
+  cluster_name  = aws_eks_cluster.cluster.name
+  principal_arn = aws_eks_access_entry.admin.principal_arn
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+  access_scope {
+    type = "cluster"
+  }
+}
+
 
 data "tls_certificate" "oidc_cert" {
   url = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
