@@ -84,10 +84,10 @@ jobs:
         continue-on-error: true
         id: apply
 
-      # - name: Terraform Destroy
-      #   run: terraform destroy --var-file=vars/dev/dev.tfvars -lock=false -auto-approve
-      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      #   id: destroy
+      - name: Terraform Destroy
+        run: terraform destroy --var-file=vars/dev/dev.tfvars -lock=false -auto-approve
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        id: destroy
 
 
   
