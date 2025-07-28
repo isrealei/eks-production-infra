@@ -152,7 +152,7 @@ resource "aws_eks_access_policy_association" "example" {
 resource "aws_eks_access_entry" "admin" {
   cluster_name  = aws_eks_cluster.cluster.name
   principal_arn = var.admin_arn
-  user_name     = "admin"
+  user_name     = "cluster-admin"
 }
 
 resource "aws_eks_access_policy_association" "admin" {

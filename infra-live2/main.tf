@@ -17,6 +17,7 @@ module "eks" {
 
   cluster_name       = "barilon"
   eks_version        = "1.33"
+  admin_arn          = "arn:aws:iam::427613144745:user/isreal"
   subnet_ids         = module.vpc.private_subnet_ids
   principal_arn      = "arn:aws:iam::427613144745:role/github-oidc"
   principal_arn_name = "admin"

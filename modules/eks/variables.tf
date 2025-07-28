@@ -41,5 +41,5 @@ variable "eks_version" {
 variable "admin_arn" {
   description = "This is the admin arn for the cluster"
   type        = string
-  
+
 }
