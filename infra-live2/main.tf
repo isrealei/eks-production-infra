@@ -45,7 +45,8 @@ module "eks_blueprints_addons" {
   oidc_provider_arn = module.eks.oidc_provider_arn
 
 
-  enable_aws_load_balancer_controller = {
+  enable_aws_load_balancer_controller = true
+  aws_load_balancer_controller = {
     set = [
       { name  = "vpcId"
         value = module.vpc.vpc_id
