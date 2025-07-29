@@ -88,6 +88,9 @@ jobs:
       - name: update kubeconfig
         run: aws eks update-kubeconfig --name barilon --region us-east-1
         id: update_kubeconfig
+
+      - name: Check working directory
+        run: pwd
       
       - name: Deploy ingress resources to expose ArgoCD
         run: |
