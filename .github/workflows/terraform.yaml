@@ -94,7 +94,7 @@ jobs:
       
       - name: Deploy ingress resources to expose ArgoCD
         run: |
-          sed "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" infra-live2/ingress.yaml > infra-live2/ingress-final.yaml
+          sed "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" ingress.yaml > ingress-final.yaml
         id: deploy_ingress
 
       - name: Apply manifests
