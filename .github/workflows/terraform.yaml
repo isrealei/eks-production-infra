@@ -89,9 +89,6 @@ jobs:
         run: aws eks update-kubeconfig --name barilon --region us-east-1
         id: update_kubeconfig
 
-      - name: Check working directory
-        run: pwd
-      
       - name: Deploy ingress resources to expose ArgoCD
         run: |
           sed "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" ingress.yaml > ingress-final.yaml
