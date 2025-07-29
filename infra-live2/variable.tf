@@ -42,12 +42,12 @@ variable "repo_url" {
   type        = string
   description = "URL of the git repository for ArgoCD"
   default     = "https://github.com/isrealei/e-voting-applcation.git"
-  
+
 }
 
 variable "repo_project" {
   type        = string
-  description = "Project name in the git repository for ArgoCD" 
+  description = "Project name in the git repository for ArgoCD"
   default     = "e-voting-application"
-  
+
 }
