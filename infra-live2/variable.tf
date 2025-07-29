@@ -48,6 +48,6 @@ variable "repo_url" {
 variable "repo_project" {
   type        = string
   description = "Project name in the git repository for ArgoCD"
-  default     = "e-voting-application"
+  default     = "default"
 
 }
