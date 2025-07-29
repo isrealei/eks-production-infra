@@ -85,6 +85,14 @@ jobs:
         continue-on-error: true
         id: apply
 
+      - name: update kubeconfig
+        run: aws eks update-kubeconfig --name barilon --region us-east-1
+        id: update_kubeconfig
+      
+      # - name: Deploy ingress resources to expose ArgoCD
+      #   run: kubectl apply -f ing.yaml --namespace argocd
+      #   id: deploy_ingress
+
       # - name: Terraform Destroy
       #   run: terraform destroy --var-file=vars/dev/dev.tfvars -lock=false -auto-approve
       #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
