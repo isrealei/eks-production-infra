@@ -53,8 +53,8 @@ jobs:
           role-session-name: GitHubActionsSession
           aws-region: us-east-1
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+      - name:  HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.2
         
     
       - name: Terraform Init
@@ -63,8 +63,9 @@ jobs:
             --backend-config="bucket=${BUCKET_TF_STATE}" \
             --backend-config="key=dev/terraform.tfstate" \
             --backend-config="region=us-east-1" \
-            --backend-config="dynamodb_table=${DYNAMO_DB_LOCK}" \
+            --backend-config="use_lockfile=true" \
         id: init
+      
 
       - name: Terraform format
         run: terraform fmt -check
