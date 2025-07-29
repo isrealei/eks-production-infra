@@ -25,8 +25,8 @@ permissions:
   contents: read
 
 jobs:
-  terraform-vpc:
-    name: Deploy VPC Infrastructure
+  deploy-infrastructure:
+    name: Deploy VPC and Infrastructure
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -65,7 +65,7 @@ jobs:
             --backend-config="region=us-east-1" \
             --backend-config="use_lockfile=true" \
         id: init
-      
+        
 
       - name: Terraform format
         run: terraform fmt -check
@@ -76,7 +76,7 @@ jobs:
         id: validate
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false -out planfile --var-file=vars/dev/dev.tfvars -lock=false
+        run: terraform plan -no-color -input=false -out planfile --var-file=vars/dev/dev.tfvars 
         id: plan
 
       - name: Terraform Apply
@@ -85,10 +85,13 @@ jobs:
         continue-on-error: true
         id: apply
 
-      - name: Terraform Destroy
-        run: terraform destroy --var-file=vars/dev/dev.tfvars -lock=false -auto-approve
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        id: destroy
+      # - name: Terraform Destroy
+      #   run: terraform destroy --var-file=vars/dev/dev.tfvars -lock=false -auto-approve
+      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   id: destroy
+
+  
+
 
 
   
