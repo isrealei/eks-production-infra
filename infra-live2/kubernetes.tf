@@ -3,7 +3,7 @@ resource "kubernetes_secret" "argo-repo" {
     name      = "argo-repo"
     namespace = "argocd"
     labels = {
-      argo.argoproj.io / secret-type = "repository"
+      "argo.argoproj.io/secret-type" = "repository"
     }
   }
 
