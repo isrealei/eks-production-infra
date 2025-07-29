@@ -85,23 +85,23 @@ jobs:
         continue-on-error: true
         id: apply
 
-      - name: update kubeconfig
-        run: aws eks update-kubeconfig --name barilon --region us-east-1
-        id: update_kubeconfig
+      # - name: update kubeconfig
+      #   run: aws eks update-kubeconfig --name barilon --region us-east-1
+      #   id: update_kubeconfig
 
-      - name: Deploy ingress resources to expose ArgoCD
-        run: |
-          sed "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" ingress.yaml > ingress-final.yaml
-        id: deploy_ingress
+      # - name: Deploy ingress resources to expose ArgoCD
+      #   run: |
+      #     sed "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" ingress.yaml > ingress-final.yaml
+      #   id: deploy_ingress
 
-      - name: Apply manifests
-        run: |
-          kubectl apply -f ingress-final.yaml
+      # - name: Apply manifests
+      #   run: |
+          # kubectl apply -f ingress-final.yaml
 
-      # - name: Terraform Destroy
-      #   run: terraform destroy --var-file=vars/dev/dev.tfvars -lock=false -auto-approve
-      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      #   id: destroy
+      - name: Terraform Destroy
+        run: terraform destroy --var-file=vars/dev/dev.tfvars -lock=false -auto-approve
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        id: destroy
 
   
 
