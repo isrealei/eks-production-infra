@@ -10,5 +10,6 @@ resource "kubernetes_secret" "argo-repo" {
   data = {
     url     = var.repo_url
     project = var.repo_project
+    type    = "git"
   }
 }

@@ -41,7 +41,7 @@ variable "create_for_eks" {
 variable "repo_url" {
   type        = string
   description = "URL of the git repository for ArgoCD"
-  default     = "https://github.com/isrealei/e-voting-applcation.git"
+  default     = "https://github.com/isrealei/e-voting-applcation"
 
 }
 
