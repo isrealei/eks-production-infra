@@ -97,6 +97,8 @@ jobs:
       - name: Apply manifests
         run: |
           kubectl apply -f ingress-final.yaml
+          kubectl apply -f application.yaml
+        id: apply_manifests
 
       # - name: Terraform Destroy
       #   run: terraform destroy --var-file=vars/dev/dev.tfvars -lock=false -auto-approve
