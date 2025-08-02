@@ -89,9 +89,11 @@ jobs:
         run: aws eks update-kubeconfig --name barilon --region us-east-1
         id: update_kubeconfig
 
-      - name: Deploy ingress resources to expose ArgoCD
+      - name: Deploy ingress resources to expose ArgoCD and Grafana
         run: |
-          sed "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" ingress.yaml > ingress-final.yaml
+            sed -e "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" \
+                -e "s|{{CERT_ARN_GRAFANA}}|${{ secrets.CERT_ARN_GRAFANA }}|g" \
+                ingress.yaml > ingress-final.yaml
         id: deploy_ingress
 
       - name: Apply manifests
