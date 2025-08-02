@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v3
       
       - name:  Create dev.tfvars file
-        run: echo "${{secrets.DEV_TFVARS}}" > vars/dev/variable.tfvars
+        run: echo "${{secrets.DEV_TFVARS}}" > vars/dev/variable.tf
 
       - name: Terraform security scan
         uses: aquasecurity/tfsec-action@v1.0.0
@@ -79,7 +79,7 @@ jobs:
         id: validate
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false -out planfile --var-file=vars/dev/variable.tfvars 
+        run: terraform plan -no-color -input=false -out planfile --var-file=vars/dev/variable.tf 
         id: plan
 
       - name: Terraform Apply
