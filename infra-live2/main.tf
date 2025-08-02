@@ -15,25 +15,14 @@ module "eks" {
   source     = "../modules/eks"
   depends_on = [module.vpc]
 
-  cluster_name       = "barilon"
-  eks_version        = "1.33"
-  admin_arn          = "arn:aws:iam::427613144745:user/isreal"
+  cluster_name       = var.cluster_name
+  eks_version        = var.eks_version
+  admin_arn          = var.admin_arn
   subnet_ids         = module.vpc.private_subnet_ids
-  principal_arn      = "arn:aws:iam::427613144745:role/github-oidc"
-  principal_arn_name = "admin"
-  node_groups = {
-    node1 = {
-      instance_types = ["t2.large"]
-      capacity_type  = "ON_DEMAND"
-      scaling_config = {
-        desired_size = 6
-        max_size     = 14
-        min_size     = 6
-      }
-    }
-  }
+  principal_arn      = var.principal_arn
+  principal_arn_name = var.principal_arn_name
+  node_groups        = var.node_groups
 }
-
 
 module "eks_blueprints_addons" {
   source     = "aws-ia/eks-blueprints-addons/aws"

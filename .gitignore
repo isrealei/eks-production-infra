@@ -42,3 +42,8 @@ terraform.rc
 # === Terragrunt files ===
 .terragrunt-cache/          # Cache directory Terragrunt creates
 **/.terragrunt-cache/       # Catch nested ones too
+
+
+# Ignore Terraform variable files
+*.tfvars
+vars/dev/dev.tfvars

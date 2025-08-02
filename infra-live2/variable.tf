@@ -53,13 +53,24 @@ variable "repo_project" {
 }
 
 
-# variable "vpc_config" {
+variable "eks_version" {
+  description = "value for eks version"
+  type        = string
+}
 
-#  description = "vpc configuration for EKS Cluste"
-#  type = object ({
+variable "admin_arn" {
+  type        = string
+  description = "ARN of the admin user to administer the EKS cluster"
+}
 
-#  })
+variable "principal_arn" {
+  type        = string
+  description = "ARN of the principal to be used for EKS access, this will be used by the pipline to access the cluster"
+}
 
-# }
+variable "principal_arn_name" {
+  type        = string
+  description = "Name of the principal ARN, used for identification in the EKS module"
+  default     = "admin"
 
-
+}

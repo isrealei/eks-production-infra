@@ -37,7 +37,10 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v3
-
+      
+      - name:  Create dev.tfvars file
+        run: echo "${{secrets.DEV_TFVARS}}" > vars/dev/dev.tfvars
+        
       - name: Terraform security scan
         uses: aquasecurity/tfsec-action@v1.0.0
         with:
