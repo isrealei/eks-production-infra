@@ -54,10 +54,10 @@ variable "repo_project" {
 
 
 # variable "vpc_config" {
-  
+
 #  description = "vpc configuration for EKS Cluste"
 #  type = object ({
-    
+
 #  })
 
 # }
