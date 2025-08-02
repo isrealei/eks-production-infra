@@ -69,7 +69,7 @@ jobs:
       
       - name:  Create dev.tfvars file
         run: |
-          echo "${{ secrets.DEV_TFVARS_B64 }}" | base64 -d > vars/dev/variable.tf
+          echo "${{ secrets.DEV_TFVARS_B64 }}" | base64 -d > vars/dev/variable.tfvars
           terraform fmt variable.tf
 
       - name: Terraform format
@@ -81,7 +81,7 @@ jobs:
         id: validate
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false -out planfile --var-file=vars/dev/variable.tf 
+        run: terraform plan -no-color -input=false -out planfile --var-file=vars/dev/variable.tfvars
         id: plan
 
       - name: Terraform Apply
