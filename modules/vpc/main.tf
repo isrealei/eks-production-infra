@@ -35,6 +35,7 @@ resource "aws_subnet" "private-subnets" {
     var.create_for_eks ? {
       "kubernetes.io/role/internal-elb"           = "1"
       "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+      "karpenter.sh/discovery"                    = var.cluster_name
     } : {}
   )
 }
@@ -53,6 +54,7 @@ resource "aws_subnet" "public-subnets" {
     var.create_for_eks ? {
       "kubernetes.io/role/elb"                    = "1"
       "kubernetes.io/cluster/${var.cluster_name}" = "shared"
+      "karpenter.sh/discovery"                    = var.cluster_name
     } : {}
   )
 }
