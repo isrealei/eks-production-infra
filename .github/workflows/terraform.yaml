@@ -38,10 +38,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      - name:  Create dev.tfvars file
-        run: |
-          echo "${{secrets.DEV_TFVARS}}" > vars/dev/variable.tf
-          terraform fmt variable.tf
 
       - name: Terraform security scan
         uses: aquasecurity/tfsec-action@v1.0.0
@@ -70,7 +66,12 @@ jobs:
             --backend-config="region=us-east-1" \
             --backend-config="use_lockfile=true" \
         id: init
-        
+      
+      - name:  Create dev.tfvars file
+        run: |
+          echo "${{secrets.DEV_TFVARS}}" > vars/dev/variable.tf
+          terraform fmt variable.tf
+
 
       - name: Terraform format
         run: terraform fmt -check
