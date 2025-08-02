@@ -72,7 +72,7 @@ variable "principal_arn_name" {
   type        = string
   description = "Name of the principal ARN, used for identification in the EKS module"
   default     = "admin"
-  
+
 }
 
 variable "node_groups" {
