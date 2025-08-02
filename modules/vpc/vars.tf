@@ -3,7 +3,7 @@ variable "env" {
   type        = string
 }
 
-variable "vpc-name" {
+variable "vpc_name" {
   description = "the vpc name"
   type        = string
 }
@@ -13,17 +13,17 @@ variable "azs" {
   type        = list(string)
 }
 
-variable "vpc-cidr" {
+variable "vpc_cidr" {
   description = "This is the vpc cidr"
   type        = string
 }
 
-variable "private-subnets-cidr" {
+variable "private_subnets_cidr" {
   description = "This is the list of private subnets"
   type        = list(string)
 }
 
-variable "public-subnets-cidr" {
+variable "public_subnets_cidr" {
   description = "This is the list of public subnets"
   type        = list(string)
 }

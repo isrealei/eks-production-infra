@@ -1,12 +1,12 @@
 locals {
   common_tags = {
-    Name = "${var.vpc-name}-${var.env}"
+    Name = "${var.vpc_name}-${var.env}"
   }
 }
 
 # This resource creates the vpc 
 resource "aws_vpc" "main" {
-  cidr_block           = var.vpc-cidr
+  cidr_block           = var.vpc_cidr
   instance_tenancy     = "default"
   enable_dns_support   = true
   enable_dns_hostnames = true
@@ -23,9 +23,9 @@ resource "aws_vpc" "main" {
 
 # This will creates the subnets both public and Private subnets
 resource "aws_subnet" "private-subnets" {
-  count                   = length(var.private-subnets-cidr)
+  count                   = length(var.private_subnets_cidr)
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = var.private-subnets-cidr[count.index]
+  cidr_block              = var.private_subnets_cidr[count.index]
   availability_zone       = var.azs[count.index]
   map_public_ip_on_launch = false
   tags = merge(
@@ -40,9 +40,9 @@ resource "aws_subnet" "private-subnets" {
 }
 
 resource "aws_subnet" "public-subnets" {
-  count                   = length(var.public-subnets-cidr)
+  count                   = length(var.public_subnets_cidr)
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = var.public-subnets-cidr[count.index]
+  cidr_block              = var.public_subnets_cidr[count.index]
   availability_zone       = var.azs[count.index]
   map_public_ip_on_launch = true
 
@@ -77,7 +77,7 @@ resource "aws_nat_gateway" "ngw" {
   subnet_id     = aws_subnet.public-subnets[0].id
 
   tags = {
-    Name = "${var.vpc-name}-ngw-${var.env}"
+    Name = "${var.vpc_name}-ngw-${var.env}"
   }
 
   depends_on = [aws_internet_gateway.igw]
@@ -93,7 +93,7 @@ resource "aws_route_table" "pub-rt" {
   }
 
   tags = {
-    Name        = "${var.vpc-name}-public-rt-${var.env}"
+    Name        = "${var.vpc_name}-public-rt-${var.env}"
     Environment = var.env
   }
 }
@@ -108,7 +108,7 @@ resource "aws_route_table" "priv-rt" {
   }
 
   tags = {
-    Name        = "${var.vpc-name}-private-rt-${var.env}"
+    Name        = "${var.vpc_name}-private-rt-${var.env}"
     Environment = var.env
   }
 }
