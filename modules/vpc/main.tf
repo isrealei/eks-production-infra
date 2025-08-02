@@ -62,13 +62,13 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "${var.vpc-name}-igw-${var.env}"
+    Name = "${var.vpc_name}-igw-${var.env}"
   }
 }
 
 resource "aws_eip" "nat-eip" {
   tags = {
-    Name = "${var.vpc-name}-eip-${var.env}"
+    Name = "${var.vpc_name}-eip-${var.env}"
   }
 }
 
