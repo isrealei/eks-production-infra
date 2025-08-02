@@ -3,7 +3,7 @@ variable "env" {
   description = "value for environment"
 }
 
-variable "vpc-name" {
+variable "vpc_name" {
   type        = string
   description = "value for vpc name"
 }
@@ -18,17 +18,17 @@ variable "azs" {
   description = "values for availability zones"
 }
 
-variable "vpc-cidr" {
+variable "vpc_idr" {
   type        = string
   description = "value"
 }
 
-variable "private-subnets-cidr" {
+variable "private_subnets_cidr" {
   type        = list(string)
   description = "values for private subnets cidr"
 }
 
-variable "public-subnets-cidr" {
+variable "public_subnets_cidr" {
   type        = list(string)
   description = "values for public subnets cidr"
 }
@@ -51,3 +51,15 @@ variable "repo_project" {
   default     = "default"
 
 }
+
+
+# variable "vpc_config" {
+  
+#  description = "vpc configuration for EKS Cluste"
+#  type = object ({
+    
+#  })
+
+# }
+
+
