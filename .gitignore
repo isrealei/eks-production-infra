@@ -46,4 +46,4 @@ terraform.rc
 
 # Ignore Terraform variable files
 # *.tfvars
-infra-live2/vars/dev/dev.tfvars
+# infra-live2/vars/dev/dev.tfvars
