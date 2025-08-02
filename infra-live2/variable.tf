@@ -18,7 +18,7 @@ variable "azs" {
   description = "values for availability zones"
 }
 
-variable "vpc_idr" {
+variable "vpc_cidr" {
   type        = string
   description = "value"
 }

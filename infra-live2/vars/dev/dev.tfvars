@@ -8,7 +8,7 @@ azs = [
   "us-east-1c"
 ]
 
-vpc-cidr = "10.0.0.0/16"
+vpc_cidr = "10.0.0.0/16"
 
 private_subnets_cidr = [
   "10.0.10.0/24",

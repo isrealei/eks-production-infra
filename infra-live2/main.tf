@@ -1,13 +1,13 @@
 module "vpc" {
   source = "../modules/vpc"
 
-  env                  = "dev"
-  vpc_name             = "barlion"
-  cluster_name         = "barilon"
-  azs                  = ["us-east-1a", "us-east-1b", "us-east-1c"]
-  vpc_cidr             = "10.16.0.0/16"
-  private_subnets_cidr = ["10.16.1.0/24", "10.16.2.0/24", "10.16.3.0/24"]
-  public_subnets_cidr  = ["10.16.4.0/24", "10.16.5.0/24", "10.16.6.0/24"]
+  env                  = var.env
+  vpc_name             = var.vpc_name
+  cluster_name         = var.cluster_name
+  azs                  = var.azs
+  vpc_cidr             = var.vpc_cidr
+  private_subnets_cidr = var.private_subnets_cidr
+  public_subnets_cidr  = var.public_subnets_cidr
   create_for_eks       = true
 }
 
