@@ -47,10 +47,10 @@ module "eks_blueprints_addons" {
   enable_kube_prometheus_stack = true
   enable_metrics_server        = true
   enable_karpenter             = true
-  karpenter ={
-    chart_version = "v1.6.0"  # Specify your desired version
+  karpenter = {
+    chart_version = "v1.6.0" # Specify your desired version
   }
-  enable_argocd                = true
+  enable_argocd = true
   tags = {
     Environment = "dev"
   }
