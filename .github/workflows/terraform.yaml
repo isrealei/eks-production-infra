@@ -100,11 +100,11 @@ jobs:
                 ingress.yaml > ingress-final.yaml
         id: deploy_ingress
 
-      - name: Apply manifests
-        run: |
-          kubectl delete -f ingress-final.yaml
-          kubectl delete -f application.yaml
-        id: apply_manifests
+      # - name: Apply manifests
+      #   run: |
+      #     kubectl delete -f ingress-final.yaml
+      #     kubectl delete -f application.yaml
+      #   id: apply_manifests
 
       - name: Terraform Destroy
         run: terraform destroy --var-file=vars/dev/dev-env.tfvars -lock=false -auto-approve
