@@ -52,7 +52,7 @@ module "eks_blueprints_addons" {
       version = "1.6.0"
     }]
   }
-  enable_argocd                = true
+  enable_argocd = true
   tags = {
     Environment = "dev"
   }
