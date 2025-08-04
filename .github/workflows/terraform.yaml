@@ -74,16 +74,21 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
         id: validate
+      
+      - name: Get dev.tfvars from aws secrete manager
+        run: |
+          aws secretsmanager get-secret-value --secret-id dev.tfvars --query SecretString --output text > vars/dev/dev-env.tfvars
+        id: get_tfvars
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false -out planfile --var-file=vars/dev/dev.tfvars 
+        run: terraform plan -no-color -input=false -out planfile --var-file=vars/dev/dev-env.tfvars 
         id: plan
 
-      # - name: Terraform Apply
-      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      #   run: terraform apply -lock=false -auto-approve planfile
-      #   continue-on-error: true
-      #   id: apply
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -lock=false -auto-approve planfile
+        continue-on-error: true
+        id: apply
 
       - name: update kubeconfig
         run: aws eks update-kubeconfig --name barilon --region us-east-1
@@ -98,14 +103,14 @@ jobs:
 
       - name: Apply manifests
         run: |
-          kubectl delete -f ingress-final.yaml
-          kubectl delete -f application.yaml
+          kubectl apply -f ingress-final.yaml
+          kubectl apply -f application.yaml
         id: apply_manifests
 
-      - name: Terraform Destroy
-        run: terraform destroy --var-file=vars/dev/dev.tfvars -lock=false -auto-approve
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        id: destroy
+      # - name: Terraform Destroy
+      #   run: terraform destroy --var-file=vars/dev/dev.tfvars -lock=false -auto-approve
+      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   id: destroy
 
   
 
