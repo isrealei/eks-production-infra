@@ -10,6 +10,8 @@ resource "aws_vpc" "main" {
   instance_tenancy     = "default"
   enable_dns_support   = true
   enable_dns_hostnames = true
+  # vpc logs
+  
 
   tags = merge(
     local.common_tags,
