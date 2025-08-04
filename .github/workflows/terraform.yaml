@@ -107,7 +107,7 @@ jobs:
         id: apply_manifests
 
       - name: Terraform Destroy
-        run: terraform destroy --var-file=vars/dev/dev.tfvars -lock=false -auto-approve
+        run: terraform destroy --var-file=vars/dev/dev-env.tfvars -lock=false -auto-approve
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         id: destroy
 
