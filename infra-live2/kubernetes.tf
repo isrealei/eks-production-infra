@@ -45,7 +45,4 @@ resource "helm_release" "karpenter" {
     })
   ]
   wait = true
-
-  depends_on = [module.eks]
-
 }
