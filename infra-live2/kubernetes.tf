@@ -25,12 +25,12 @@ resource "helm_release" "karpenter" {
   create_namespace = true
 
   values = [
-    yamldecode({
+    yamlencode({
       settings = {
         clusterName       = var.cluster_name
         interruptionQueue = var.cluster_name
       }
-      contoller = {
+      controller = {
         resources = {
           limits = {
             cpu    = "1"
