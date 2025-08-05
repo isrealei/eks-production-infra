@@ -46,6 +46,6 @@ resource "helm_release" "karpenter" {
   ]
   wait = true
 
-  depends_on = [aws_eks_cluster.cluster]
+  depends_on = [module.eks, module.eks_blueprints_addons]
 
 }
