@@ -1,4 +1,4 @@
-apiVersion: karpenter.sh/v1
+apiVersion: karpenter.sh/v1beta1
 kind: NodePool
 metadata:
   name: default
@@ -32,14 +32,15 @@ spec:
     consolidationPolicy: WhenEmptyOrUnderutilized
     consolidateAfter: 1m
 ---
-apiVersion: karpenter.k8s.aws/v1
+apiVersion: karpenter.k8s.aws/v1beta1
 kind: EC2NodeClass
 metadata:
   name: default
 spec:
-  role: "KarpenterNodeRole-barilon" # replace with your cluster name
+  role: "karpenter-barilon-20250805155809836900000010" # replace with your cluster name. 
+ 
   amiSelectorTerms:
-    - alias: "al2023@${ALIAS_VERSION}"
+    - alias: "al2023@latest"
   subnetSelectorTerms:
     - tags:
         karpenter.sh/discovery: "barilon" # replace with your cluster name
