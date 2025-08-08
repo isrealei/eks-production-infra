@@ -34,6 +34,12 @@ module "eks_blueprints_addons" {
   cluster_version   = module.eks.cluster_version
   oidc_provider_arn = module.eks.oidc_provider_arn
 
+  eks_addons = {
+    aws-ebs-csi-driver = {
+      most_recent = true
+    }
+  }
+
 
   enable_aws_load_balancer_controller = true
   aws_load_balancer_controller = {
