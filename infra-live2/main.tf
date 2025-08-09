@@ -58,3 +58,21 @@ module "eks_blueprints_addons" {
   }
 }
 
+module "backend" {
+  source = "../modules/database"
+
+  vpc_id            = module.vpc.vpc_id
+  db_name           = var.database_config.db_name
+  db_username       = var.database_config.db_username
+  db_password       = var.database_config.db_password
+  db_instance_class = var.database_config.db_instance_class
+  db_engine         = var.database_config.db_engine
+  db_engine_version = var.database_config.db_engine_version
+  db_subnet_ids     = module.vpc.private_subnet_ids
+  env               = var.env
+  project_name      = var.database_config.project_name
+
+  depends_on = [module.vpc]
+
+}
+
