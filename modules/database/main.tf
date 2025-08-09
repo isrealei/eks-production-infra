@@ -33,32 +33,3 @@ resource "aws_db_instance" "default" {
   }
 }
 
-
-variable "db_name" {
-  description = "value of the database name"
-  type        = string
-}
-
-variable "db_engine" {
-  description = "value of the database engine"
-  type        = string
-}
-
-variable "db_engine_version" {
-  description = "value of the database engine version"
-  type        = string
-}
-
-variable "db_instance_class" {
-  description = "value of the database instance class"
-  type        = string
-}
-variable "db_username" {
-  description = "value of the database username"
-  type        = string
-}
-variable "db_password" {
-  description = "value of the database password"
-  type        = string
-  sensitive   = true
-}
