@@ -102,3 +102,9 @@ variable "database_config" {
     project_name      = string
   })
 }
+variable "namespace" {
+  description = "Namespace for the application"
+  type        = string
+  default     = "default"
+
+}

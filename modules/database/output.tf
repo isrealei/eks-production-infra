@@ -23,3 +23,8 @@ output "arn" {
   description = "value of the arn"
   value       = aws_db_instance.default.arn
 }
+
+output "redis_host" {
+  description = "value of the redis host"
+  value       = aws_elasticache_cluster.redis.cache_nodes[0].address
+}

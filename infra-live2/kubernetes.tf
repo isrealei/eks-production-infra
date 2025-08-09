@@ -15,34 +15,17 @@ resource "kubernetes_secret" "argo-repo" {
 }
 
 
-# # installing karpenter
-# resource "helm_release" "karpenter" {
-#   name             = "karpenter"
-#   repository       = "oci://public.ecr.aws/karpenter/karpenter"
-#   chart            = "karpenter"
-#   version          = "1.6.0"
-#   namespace        = "karpenter"
-#   create_namespace = true
+resource "kubernetes_secret" "app-" {
+  metadata {
+    name      = "app-cm"
+    namespace = var.namespace
+  }
+  data = {
+    POSTGRES_DB       = "vote"
+    POSTGRES_HOST     = module.backend.db_instance_endpoint
+    POSTGRES_PASSWORD = module.backend.db_password
+    POSTGRES_USER     = "postgres"
+    REDIS_HOST        = module.backend.redis_host
+  }
+}
 
-#   values = [
-#     yamlencode({
-#       settings = {
-#         clusterName       = var.cluster_name
-#         interruptionQueue = var.cluster_name
-#       }
-#       controller = {
-#         resources = {
-#           limits = {
-#             cpu    = "1"
-#             memory = "1Gi"
-#           }
-#           requests = {
-#             cpu    = "1"
-#             memory = "1Gi"
-#           }
-#         }
-#       }
-#     })
-#   ]
-#   wait = true
-# }

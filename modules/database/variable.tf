@@ -50,3 +50,4 @@ variable "db_security_group" {
   description = "value of the database security group"
   type        = string
 }
+
