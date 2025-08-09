@@ -12,19 +12,19 @@ resource "aws_db_subnet_group" "default" {
 
 
 resource "aws_db_instance" "default" {
-  allocated_storage         = 10
-  db_name                   = var.db_name
-  engine                    = var.db_engine
-  engine_version            = var.db_engine_version
-  instance_class            = var.db_instance_class
-  username                  = var.db_username
-  password                  = var.db_password
-  parameter_group_name      = "default.postgres17"
-  skip_final_snapshot       = true
-  db_subnet_group_name      = aws_db_subnet_group.default.name
-  delete_automated_backups  = true
-  deletion_protection       = false
-  vpc_security_group_ids    = [var.db_security_group]
+  allocated_storage        = 10
+  db_name                  = var.db_name
+  engine                   = var.db_engine
+  engine_version           = var.db_engine_version
+  instance_class           = var.db_instance_class
+  username                 = var.db_username
+  password                 = var.db_password
+  parameter_group_name     = "default.postgres17"
+  skip_final_snapshot      = true
+  db_subnet_group_name     = aws_db_subnet_group.default.name
+  delete_automated_backups = true
+  deletion_protection      = false
+  vpc_security_group_ids   = [var.db_security_group]
 
 
   tags = {
@@ -35,18 +35,18 @@ resource "aws_db_instance" "default" {
 }
 
 resource "aws_elasticache_cluster" "redis" {
-    cluster_id           = "${var.project_name}-redis"
-    engine               = "redis"
-    node_type            = "cache.t3.micro"
-    num_cache_nodes      = 1
-    parameter_group_name = "default.redis6.x"
-    subnet_group_name    = aws_db_subnet_group.default.name
-    security_group_ids   = [var.db_security_group]
-    az_mode = "cross-az"
-    
-    tags = {
-        Name        = "My Redis Cluster"
-        Environment = var.env
-        Project     = var.project_name
-    }
+  cluster_id           = "${var.project_name}-redis"
+  engine               = "redis"
+  node_type            = "cache.t3.micro"
+  num_cache_nodes      = 1
+  parameter_group_name = "default.redis6.x"
+  subnet_group_name    = aws_db_subnet_group.default.name
+  security_group_ids   = [var.db_security_group]
+  az_mode              = "single-az"
+
+  tags = {
+    Name        = "My Redis Cluster"
+    Environment = var.env
+    Project     = var.project_name
+  }
 }
