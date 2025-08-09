@@ -28,3 +28,9 @@ output "redis_host" {
   description = "value of the redis host"
   value       = aws_elasticache_cluster.redis.cache_nodes[0].address
 }
+
+output "db_password" {
+  description = "value of the database password"
+  value       = var.db_password
+  sensitive   = true
+}
