@@ -146,6 +146,15 @@ resource "aws_security_group" "db_secuirity_group" {
     description = "Allow PostgreSQL access from VPC CIDR"
   }
 
+  ingress {
+    from_port   = 6379
+    to_port     = 6379
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+
+    description = "Allow Redis access from VPC CIDR"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
