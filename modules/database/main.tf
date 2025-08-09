@@ -20,10 +20,9 @@ resource "aws_db_instance" "default" {
   username                  = var.db_username
   password                  = var.db_password
   parameter_group_name      = "default.postgres17"
-  skip_final_snapshot       = false
+  skip_final_snapshot       = true
   db_subnet_group_name      = aws_db_subnet_group.default.name
   delete_automated_backups  = true
-  final_snapshot_identifier = "my-db-final-snapshot-${var.env}"
   deletion_protection       = false
   vpc_security_group_ids    = [var.db_security_group]
 
