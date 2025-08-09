@@ -57,7 +57,7 @@ module "eks_blueprints_addons" {
     Environment = "dev"
   }
 }
-
+# this  module will create postgress and redis
 module "backend" {
   source = "../modules/database"
 
