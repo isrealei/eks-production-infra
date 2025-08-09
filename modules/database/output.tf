@@ -16,7 +16,7 @@ output "db_instance_id" {
 
 output "db_instance_endpoint" {
   description = "The endpoint of the DB instance"
-  value       = aws_db_instance.default.endpoint
+  value       = aws_db_instance.default.address
 }
 
 output "arn" {
