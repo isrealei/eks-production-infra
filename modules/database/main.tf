@@ -34,13 +34,24 @@ resource "aws_db_instance" "default" {
   }
 }
 
+resource "aws_elasticache_subnet_group" "redis" {
+  name        = "${var.project_name}-redis-subnet-group"
+  subnet_ids  = var.db_subnet_ids
+  description = "Subnet group for Redis cluster"
+  tags = {
+    Name        = "My Redis subnet group"
+    Environment = var.env
+    Project     = var.project_name
+  }
+}
+
 resource "aws_elasticache_cluster" "redis" {
   cluster_id           = "${var.project_name}-redis"
   engine               = "redis"
   node_type            = "cache.t3.micro"
   num_cache_nodes      = 1
   parameter_group_name = "default.redis7"
-  subnet_group_name    = aws_db_subnet_group.default.name
+  subnet_group_name    = aws_elasticache_subnet_group.redis.name
   security_group_ids   = [var.db_security_group]
   az_mode              = "single-az"
 
