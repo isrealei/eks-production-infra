@@ -130,3 +130,28 @@ resource "aws_route_table_association" "priv" {
   subnet_id      = aws_subnet.private-subnets[count.index].id
   route_table_id = aws_route_table.priv-rt.id
 }
+
+
+resource "aws_security_group" "db_secuirity_group" {
+  name        = "${var.vpc_name}-db-sg-${var.env}"
+  description = "Database security group"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+
+    description = "Allow PostgreSQL access from VPC CIDR"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.00/0"]
+    description = "Allow all outbound traffic"
+  }
+
+}

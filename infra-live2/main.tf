@@ -57,6 +57,7 @@ module "eks_blueprints_addons" {
     Environment = "dev"
   }
 }
+
 # this  module will create postgress and redis
 module "backend" {
   source = "../modules/database"
@@ -71,6 +72,7 @@ module "backend" {
   db_subnet_ids     = module.vpc.private_subnet_ids
   env               = var.env
   project_name      = var.database_config.project_name
+  db_security_group = module.vpc.db_security_group_id
 
   depends_on = [module.vpc]
 

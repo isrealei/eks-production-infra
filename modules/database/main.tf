@@ -24,6 +24,7 @@ resource "aws_db_instance" "default" {
   db_subnet_group_name     = aws_db_subnet_group.default.name
   delete_automated_backups = true
   deletion_protection      = false
+  vpc_security_group_ids   = [var.db_security_group]
 
 
   tags = {
