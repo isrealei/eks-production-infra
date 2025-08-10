@@ -6,9 +6,9 @@ This repository contains a comprehensive DevOps project designed to automate the
 
 As a lead DevOps engineer, this project serves as a real-world showcase of how to structure reusable infrastructure modules, manage multi-environment deployments, and integrate CI/CD automation using GitHub Actions.
 
-<!-- ## 🏗️ Architecture Overview
+## 🏗️ Architecture Overview
 
-![Architecture Diagram](architecture-diagrams/arch.png) -->
+![Architecture Diagram](architecture-diagrams/arch.png)
 
 ---
 
