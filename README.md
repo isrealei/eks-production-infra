@@ -8,7 +8,7 @@ As a lead DevOps engineer, this project serves as a real-world showcase of how t
 
 ## 🏗️ Architecture Overview
 
-![Architecture Diagram](architecture-diagrams/arch.png)
+![Architecture Diagram](architecture-diagrams/arch2.png)
 
 ---
 
