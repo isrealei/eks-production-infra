@@ -78,7 +78,6 @@ resource "aws_iam_role_policy_attachment" "node_policy" {
 }
 
 # This will create the node pool for the worker nodes
-
 resource "aws_eks_node_group" "node" {
   for_each = var.node_groups
 

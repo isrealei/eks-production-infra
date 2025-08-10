@@ -82,6 +82,7 @@ resource "aws_nat_gateway" "ngw" {
 
   tags = {
     Name = "${var.vpc_name}-ngw-${var.env}"
+    Environment = var.env
   }
 
   depends_on = [aws_internet_gateway.igw]
