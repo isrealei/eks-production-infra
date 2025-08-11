@@ -12,10 +12,11 @@ resource "kubernetes_secret" "argo-repo" {
     project = var.repo_project
     type    = "git"
   }
+  depends_on = [ kubernetes_secret.evoting ]
 }
 
 
-resource "kubernetes_secret" "app-" {
+resource "kubernetes_secret" "app-cm" {
   metadata {
     name      = "app-cm"
     namespace = var.namespace
@@ -27,5 +28,12 @@ resource "kubernetes_secret" "app-" {
     POSTGRES_USER     = "postgres"
     REDIS_HOST        = module.backend.redis_host
   }
+
+  depends_on = [ kubernetes_namespace.evoting ]
 }
 
+resource "kubernetes_namespace" "evoting" {
+  metadata {
+    name = var.namespace
+  }
+}
