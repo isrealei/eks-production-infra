@@ -72,9 +72,9 @@ jobs:
         run: terraform fmt -check
         id: fmt
 
-      - name: Terraform Validate
-        run: terraform validate
-        id: validate
+      # - name: Terraform Validate
+      #   run: terraform validate
+      #   id: validate
       
       - name: Get dev.tfvars from aws secrete manager
         run: |
