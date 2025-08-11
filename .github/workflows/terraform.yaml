@@ -81,9 +81,9 @@ jobs:
           aws secretsmanager get-secret-value --secret-id dev.tfvars --query SecretString --output text > vars/dev/dev-env.tfvars
         id: get_tfvars
 
-      - name: Terraform Plan
-        run: terraform plan -no-color -input=false -lock=false  -out planfile --var-file=vars/dev/dev-env.tfvars 
-        id: plan
+      # - name: Terraform Plan
+      #   run: terraform plan -no-color -input=false -lock=false  -out planfile --var-file=vars/dev/dev-env.tfvars 
+      #   id: plan
 
       - name: Terraform Apply
         if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push' &&  env.TF_destroy == 'false'}}
@@ -102,6 +102,7 @@ jobs:
         id: deploy_ingress
 
       - name: Apply manifests
+        if: ${{ env.TF_destroy == 'false'}}
         run: |
           kubectl apply -f ingress-final.yaml
           kubectl apply -f application.yaml
