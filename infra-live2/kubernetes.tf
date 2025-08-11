@@ -32,8 +32,8 @@ resource "kubernetes_secret" "app-cm" {
   depends_on = [kubernetes_namespace.evoting]
 }
 
-resource "kubernetes_namespace" "evoting" {
-  metadata {
-    name = var.namespace
-  }
-}
+# resource "kubernetes_namespace" "evoting" {
+#   metadata {
+#     name = var.namespace
+#   }
+# }
