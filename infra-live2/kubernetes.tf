@@ -12,7 +12,7 @@ resource "kubernetes_secret" "argo-repo" {
     project = var.repo_project
     type    = "git"
   }
-  depends_on = [kubernetes_secret.evoting]
+  depends_on = [kubernetes_namespace.evoting]
 }
 
 
