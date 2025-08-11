@@ -19,7 +19,7 @@ env:
   AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
   DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
-  TF_destroy: false
+  TF_destroy: true
 
 
 permissions:
@@ -107,7 +107,7 @@ jobs:
           kubectl apply -f application.yaml
         id: apply_manifests
 
-      - name: delete manifests - will only runn when the cluster needs to be destroyed
+      - name: delete manifests - will only run when the cluster needs to be destroyed
         if: ${{ env.TF_destroy == 'true' }}
         run: |
           kubectl delete -f ingress-final.yaml
