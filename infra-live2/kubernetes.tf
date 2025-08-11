@@ -12,7 +12,7 @@ resource "kubernetes_secret" "argo-repo" {
     project = var.repo_project
     type    = "git"
   }
-  depends_on = [ kubernetes_secret.evoting ]
+  depends_on = [kubernetes_secret.evoting]
 }
 
 
@@ -29,7 +29,7 @@ resource "kubernetes_secret" "app-cm" {
     REDIS_HOST        = module.backend.redis_host
   }
 
-  depends_on = [ kubernetes_namespace.evoting ]
+  depends_on = [kubernetes_namespace.evoting]
 }
 
 resource "kubernetes_namespace" "evoting" {
