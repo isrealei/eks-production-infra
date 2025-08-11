@@ -19,6 +19,8 @@ env:
   AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
   DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
+  TF_destroy: false
+
 
 permissions:
   id-token: write
@@ -66,7 +68,6 @@ jobs:
             --backend-config="use_lockfile=true" \
         id: init
         
-
       - name: Terraform format
         run: terraform fmt -check
         id: fmt
@@ -84,10 +85,10 @@ jobs:
         run: terraform plan -no-color -input=false -lock=false  -out planfile --var-file=vars/dev/dev-env.tfvars 
         id: plan
 
-      # - name: Terraform Apply
-      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      #   run: terraform apply -lock=true -auto-approve planfile
-      #   id: apply
+      - name: Terraform Apply
+        if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push' &&  env.TF_destroy == 'false'}}
+        run: terraform apply -lock=true -auto-approve planfile
+        id: apply
 
       - name: update kubeconfig
         run: aws eks update-kubeconfig --name barilon --region us-east-1
@@ -102,15 +103,22 @@ jobs:
 
       - name: Apply manifests
         run: |
+          kubectl apply -f ingress-final.yaml
+          kubectl apply -f application.yaml
+        id: apply_manifests
+
+      - name: delete manifests - will only runn when the cluster needs to be destroyed
+        if: ${{ env.TF_destroy == 'true' }}
+        run: |
           kubectl delete -f ingress-final.yaml
           kubectl delete -f application.yaml
-        id: apply_manifests
+        id: delete_manifests
 
       - name: Terraform Destroy
         run: terraform destroy --var-file=vars/dev/dev-env.tfvars -lock=false -auto-approve
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: ${{ env.TF_destroy == 'true'}}
         id: destroy
-
+        
   
 
 
