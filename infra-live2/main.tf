@@ -104,31 +104,10 @@ module "karpenter" {
   # Attach additional IAM policies to the Karpenter node IAM role
   node_iam_role_additional_policies = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-    karpenter_extra              = aws_iam_policy.karpenter_extra.arn
   }
 
   tags = {
     Environment = var.env
     Terraform   = "true"
   }
-}
-
-resource "aws_iam_policy" "karpenter_extra" {
-  name        = "KarpenterExtraPermissions"
-  description = "Extra permissions for Karpenter nodes"
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "ec2:DescribeInstanceTypeOfferings",
-          "ec2:DescribeInstanceTypes",
-          "ec2:DescribeSpotPriceHistory",
-          "pricing:GetProducts"
-        ],
-        Resource = "*"
-      }
-    ]
-  })
 }
