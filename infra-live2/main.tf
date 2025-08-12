@@ -99,8 +99,7 @@ module "karpenter" {
   source  = "terraform-aws-modules/eks/aws//modules/karpenter"
   version = "21.0.8"
 
-  cluster_name = module.eks.cluster_name
-
+  cluster_name                    = module.eks.cluster_name
   create_pod_identity_association = true
   namespace                       = "karpenter"
 
