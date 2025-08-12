@@ -1,3 +1,6 @@
+#########################################################################################################
+#                                      VPC    PROVISIONING                                               #
+#########################################################################################################
 module "vpc" {
   source = "../modules/vpc"
 
@@ -11,6 +14,9 @@ module "vpc" {
   create_for_eks       = true
 }
 
+#########################################################################################################
+#                                      EKS  PROVISIONING                                               #
+#########################################################################################################
 module "eks" {
   source     = "../modules/eks"
   depends_on = [module.vpc]
@@ -24,6 +30,9 @@ module "eks" {
   node_groups        = var.node_groups
 }
 
+#########################################################################################################
+#                                      EKS BLUEPRINT FOR INSTALLING CLUSTER ADDONS                      #
+#########################################################################################################
 module "eks_blueprints_addons" {
   source     = "aws-ia/eks-blueprints-addons/aws"
   version    = "~> 1.0" #ensure to update this to the latest/desired version
@@ -54,10 +63,13 @@ module "eks_blueprints_addons" {
   enable_metrics_server        = true
   enable_argocd                = true
   tags = {
-    Environment = "dev"
+    Environment = var.env
   }
 }
 
+#########################################################################################################
+#                                      DATABASE AND CACHE PROVISIONING                                  #
+#########################################################################################################
 # this  module will create postgress and redis
 module "backend" {
   source = "../modules/database"
@@ -79,3 +91,23 @@ module "backend" {
 }
 
 
+#########################################################################################################
+#                                      KARPENTER INSTALLATION                                           #
+#########################################################################################################
+
+module "karpenter" {
+  source  = "terraform-aws-modules/eks/aws//modules/karpenter"
+  version = "21.0.8"
+
+  cluster_name = module.eks.cluster_name
+
+  # Attach additional IAM policies to the Karpenter node IAM role
+  node_iam_role_additional_policies = {
+    AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  }
+
+  tags = {
+    Environment = var.env
+    Terraform   = "true"
+  }
+}
