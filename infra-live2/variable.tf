@@ -92,7 +92,7 @@ variable "node_groups" {
 
 variable "database_config" {
   description = "Database configuration for the application"
-  sensitive = true
+  sensitive   = true
   type = object({
     db_name           = string
     db_username       = string
