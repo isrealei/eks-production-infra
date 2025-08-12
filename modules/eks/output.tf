@@ -32,3 +32,8 @@ output "cluster" {
   description = "This is the eks cluster"
   value       = aws_eks_cluster.cluster
 }
+
+output "managed_node_group_iam_role_name" {
+  description = "IAM role name for EKS managed node group"
+  value       = aws_iam_role.node.name
+}
