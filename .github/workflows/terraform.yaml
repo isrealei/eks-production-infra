@@ -82,7 +82,9 @@ jobs:
         id: get_tfvars
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false -lock=false  -out planfile --var-file=vars/dev/dev-env.tfvars 
+        run: |
+           terraform apply -replace="kubernetes_namespace.evoting"
+           terraform plan -no-color -input=false -lock=false  -out planfile --var-file=vars/dev/dev-env.tfvars 
         id: plan
 
       - name: Terraform Apply
