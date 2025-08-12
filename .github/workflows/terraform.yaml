@@ -19,9 +19,9 @@ env:
   AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
   DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
-  TF_destroy: true
+  TF_destroy: false
 
-
+# Needed to generate the oidc tokens and also to read the token
 permissions:
   id-token: write
   contents: read
@@ -72,27 +72,27 @@ jobs:
         run: terraform fmt -check
         id: fmt
 
-      # - name: Terraform Validate
-      #   run: terraform validate
-      #   id: validate
+      - name: Terraform Validate
+        run: terraform validate
+        id: validate
       
       - name: Get dev.tfvars from aws secrete manager
         run: |
           aws secretsmanager get-secret-value --secret-id dev.tfvars --query SecretString --output text > vars/dev/dev-env.tfvars
         id: get_tfvars
 
-      # - name: Terraform Plan
-      #   run: terraform plan -no-color -input=false -lock=false  -out planfile --var-file=vars/dev/dev-env.tfvars 
-      #   id: plan
+      - name: Terraform Plan
+        run: terraform plan -no-color -input=false -lock=false  -out planfile --var-file=vars/dev/dev-env.tfvars 
+        id: plan
 
       - name: Terraform Apply
         if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push' &&  env.TF_destroy == 'false'}}
         run: terraform apply -lock=true -auto-approve planfile
         id: apply
 
-      # - name: update kubeconfig
-      #   run: aws eks update-kubeconfig --name barilon --region us-east-1
-      #   id: update_kubeconfig
+      - name: update kubeconfig
+        run: aws eks update-kubeconfig --name barilon --region us-east-1
+        id: update_kubeconfig
 
       - name: Deploy ingress resources to expose ArgoCD and Grafana
         run: |
@@ -108,12 +108,12 @@ jobs:
           kubectl apply -f application.yaml
         id: apply_manifests
 
-      # - name: delete manifests - will only run when the cluster needs to be destroyed
-      #   if: ${{ env.TF_destroy == 'true' }}
-      #   run: |
-      #     kubectl delete -f ingress-final.yaml
-      #     kubectl delete -f application.yaml
-      #   id: delete_manifests
+      - name: delete manifests - will only run when the cluster needs to be destroyed
+        if: ${{ env.TF_destroy == 'true' }}
+        run: |
+          kubectl delete -f ingress-final.yaml
+          kubectl delete -f application.yaml
+        id: delete_manifests
 
       - name: Terraform Destroy
         run: terraform destroy --var-file=vars/dev/dev-env.tfvars -lock=false -auto-approve
