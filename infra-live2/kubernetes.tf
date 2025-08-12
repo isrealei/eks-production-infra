@@ -28,11 +28,11 @@ resource "kubernetes_secret" "app-cm" {
     REDIS_HOST        = module.backend.redis_host
   }
 
-  depends_on = [kubernetes_secret.argo-repo]
+  depends_on = [kubernetes_namespace.evoting]
 }
 
-# resource "kubernetes_namespace" "evoting" {
-#   metadata {
-#     name = var.namespace
-#   }
-# }
+resource "kubernetes_namespace" "evoting" {
+  metadata {
+    name = var.namespace
+  }
+}
