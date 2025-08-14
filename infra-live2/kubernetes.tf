@@ -122,7 +122,7 @@ kind: EC2NodeClass
 metadata:
   name: default
 spec:
-  role: ${module.karpenter.node_role_arn}
+  role: ${module.karpenter.node_iam_role_arn}
   amiSelectorTerms:
     - alias: "al2023@v20250807"
   subnetSelectorTerms:
