@@ -46,6 +46,12 @@ resource "aws_eks_cluster" "cluster" {
   ]
 }
 
+resource "aws_eks_addon" "add_ons" {
+  cluster_name = aws_eks_cluster.cluster.name
+  addon_name = "eks-pod-identity-agent"
+  addon_version = "1.3.8"
+}
+
 # create iam role and eks node node group
 
 resource "aws_iam_role" "node" {
