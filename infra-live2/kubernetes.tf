@@ -1,3 +1,7 @@
+###############################################################################
+# Argocd secret for repository
+# This secret is used to connect ArgoCD to the git repository where the application manifests are
+###############################################################################
 resource "kubernetes_secret" "argo-repo" {
   metadata {
     name      = "argo-repo"
@@ -14,7 +18,10 @@ resource "kubernetes_secret" "argo-repo" {
   }
 }
 
-
+###############################################################################
+# Application manifests for the e-voting application
+# This will create a secret which contains the database and redis connection details
+###############################################################################
 resource "kubernetes_secret" "app-cm" {
   metadata {
     name      = "app-cm"
@@ -37,8 +44,9 @@ resource "kubernetes_namespace" "evoting" {
   }
 }
 
-
-
+###############################################################################
+# Karpenter Helm
+###############################################################################
 
 data "aws_ecrpublic_authorization_token" "token" {}
 
@@ -65,3 +73,63 @@ resource "helm_release" "karpenter" {
   ]
 }
 
+###############################################################################
+# Karpenter Kubectl
+###############################################################################
+
+resource "kubectl_manifest" "karpenter" {
+  yaml_body = <<-YAML
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: default
+spec:
+  template:
+    spec:
+      requirements:
+        - key: kubernetes.io/arch
+          operator: In
+          values: ["amd64"]
+        - key: kubernetes.io/os
+          operator: In
+          values: ["linux"]
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ["on-demand"]
+        - key: karpenter.k8s.aws/instance-category
+          operator: In
+          values: ["c", "m", "r"]
+        - key: karpenter.k8s.aws/instance-generation
+          operator: Gt
+          values: ["2"]
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: default
+      expireAfter: 720h # 30 * 24h = 720h
+  limits:
+    cpu: 1000
+  disruption:
+    consolidationPolicy: WhenEmptyOrUnderutilized
+    consolidateAfter: 1m
+YAML
+}
+
+resource "kubectl_manifest" "node_class" {
+  yaml_body = <<-YAML
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: default
+spec:
+  role: ${module.karpenter.node_role_arn}
+  amiSelectorTerms:
+    - alias: "al2023@v20250807"
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: ${module.eks.cluster_name} 
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: "${module.eks.cluster_name}"
+YAML
+}

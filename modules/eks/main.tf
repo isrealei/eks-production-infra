@@ -44,6 +44,10 @@ resource "aws_eks_cluster" "cluster" {
   depends_on = [
     aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy,
   ]
+  tags = {
+    real = "true"
+
+  }
 }
 
 resource "aws_eks_addon" "add_ons" {
