@@ -1,18 +1,6 @@
 terraform {
   backend "s3" {}
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.0, < 7.0"
-    }
-    helm = {
-      source  = "hashicorp/helm"
-      version = "2.12.1"
-    }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "2.20.0"
-    }
     kubectl = {
       source  = "kahirokunn/kubectl"
       version = "1.13.11"
