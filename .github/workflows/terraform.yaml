@@ -19,7 +19,7 @@ env:
   AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
   DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
-  TF_destroy: yes
+  TF_destroy: true
 
 # Needed to generate the oidc tokens and also to read the token
 permissions:
