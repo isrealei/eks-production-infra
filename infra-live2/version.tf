@@ -9,7 +9,6 @@ terraform {
   }
 }
 
-
 provider "helm" {
   kubernetes {
     # Use the EKS cluster endpoint and CA certificate to configure the Helm provider{
@@ -18,6 +17,7 @@ provider "helm" {
     token                  = data.aws_eks_cluster_auth.cluster.token
   }
 }
+
 
 provider "kubernetes" {
   host                   = module.eks.cluster_endpoint
