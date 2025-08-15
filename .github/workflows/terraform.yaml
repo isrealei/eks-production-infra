@@ -19,7 +19,7 @@ env:
   AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
   DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
-  TF_destroy: true
+  TF_destroy: false
 
 # Needed to generate the oidc tokens and also to read the token
 permissions:
@@ -83,7 +83,7 @@ jobs:
 
       - name: Terraform Plan
         run: |
-           terraform state rm kubernetes_namespace.evoting 
+          #  terraform state rm kubernetes_namespace.evoting 
            terraform plan -no-color -input=false -lock=true  -out planfile --var-file=vars/dev/dev-env.tfvars 
         id: plan
 
@@ -92,30 +92,30 @@ jobs:
         run: terraform apply -lock=true -auto-approve planfile
         id: apply
 
-      # - name: update kubeconfig
-      #   run: aws eks update-kubeconfig --name barilon --region us-east-1
-      #   id: update_kubeconfig
+      - name: update kubeconfig
+        run: aws eks update-kubeconfig --name barilon --region us-east-1
+        id: update_kubeconfig
 
-      # - name: Deploy ingress resources to expose ArgoCD and Grafana
-      #   run: |
-      #       sed -e "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" \
-      #           -e "s|{{CERT_ARN_GRAFANA}}|${{ secrets.CERT_ARN_GRAFANA }}|g" \
-      #           ingress.yaml > ingress-final.yaml
-      #   id: deploy_ingress
+      - name: Deploy ingress resources to expose ArgoCD and Grafana
+        run: |
+            sed -e "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" \
+                -e "s|{{CERT_ARN_GRAFANA}}|${{ secrets.CERT_ARN_GRAFANA }}|g" \
+                ingress.yaml > ingress-final.yaml
+        id: deploy_ingress
 
-      # - name: Apply manifests
-      #   if: ${{ env.TF_destroy == 'false'}}
-      #   run: |
-      #     kubectl apply -f ingress-final.yaml
-      #     kubectl apply -f application.yaml
-      #   id: apply_manifests
+      - name: Apply manifests
+        if: ${{ env.TF_destroy == 'false'}}
+        run: |
+          kubectl apply -f ingress-final.yaml
+          kubectl apply -f application.yaml
+        id: apply_manifests
 
-      # - name: delete manifests - will only run when the cluster needs to be destroyed
-      #   if: ${{ env.TF_destroy == 'true' }}
-      #   run: |
-      #     kubectl delete -f ingress-final.yaml
-      #     kubectl delete -f application.yaml
-      #   id: delete_manifests
+      - name: delete manifests - will only run when the cluster needs to be destroyed
+        if: ${{ env.TF_destroy == 'true' }}
+        run: |
+          kubectl delete -f ingress-final.yaml
+          kubectl delete -f application.yaml
+        id: delete_manifests
 
       - name: Terraform Destroy
         run: terraform destroy --var-file=vars/dev/dev-env.tfvars -lock=false -auto-approve

@@ -103,9 +103,19 @@ resource "aws_eks_node_group" "node" {
     max_size     = each.value.scaling_config.max_size
     min_size     = each.value.scaling_config.min_size
   }
+
+  taint {
+    key    = "role"
+    value  = "karpenter"
+    effect = "NO_SCHEDULE"
+  }
+
   depends_on = [
     aws_iam_role_policy_attachment.node_policy
   ]
+  lifecycle {
+    ignore_changes = [scaling_config[0].desired_size]
+  }
 }
 
 # This will create a fargate profile for stateless application
