@@ -104,11 +104,11 @@ resource "aws_eks_node_group" "node" {
     min_size     = each.value.scaling_config.min_size
   }
 
-  taint {
-    key    = "role"
-    value  = "karpenter"
-    effect = "NO_SCHEDULE"
-  }
+  # taint {
+  #   key    = "role"
+  #   value  = "karpenter"
+  #   effect = "NO_SCHEDULE"
+  # }
 
   depends_on = [
     aws_iam_role_policy_attachment.node_policy
