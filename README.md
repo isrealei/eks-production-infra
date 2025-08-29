@@ -335,9 +335,7 @@ We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/isrealei/infrastructure-modules/discussions)
 - 📖 **Documentation**: [Wiki](https://github.com/isrealei/infrastructure-modules/wiki)
 
-## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
