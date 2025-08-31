@@ -110,12 +110,12 @@ jobs:
       #     kubectl apply -f application.yaml
       #   id: apply_manifests
 
-      - name: delete manifests - will only run when the cluster needs to be destroyed
-        if: ${{ env.TF_destroy == 'true' }}
-        run: |
-          kubectl delete -f ingress-final.yaml
-          kubectl delete -f application.yaml
-        id: delete_manifests
+      # - name: delete manifests - will only run when the cluster needs to be destroyed
+      #   if: ${{ env.TF_destroy == 'true' }}
+      #   run: |
+      #     kubectl delete -f ingress-final.yaml
+      #     kubectl delete -f application.yaml
+      #   id: delete_manifests
 
       - name: Terraform Destroy
         run: terraform destroy --var-file=vars/dev/dev-env.tfvars -lock=false -auto-approve
