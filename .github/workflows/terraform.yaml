@@ -83,7 +83,7 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          #  terraform state rm kubernetes_namespace.evoting 
+           terraform state rm kubernetes_namespace.evoting 
            terraform plan -no-color -input=false -lock=true  -out planfile --var-file=vars/dev/dev-env.tfvars 
         id: plan
 
@@ -96,19 +96,19 @@ jobs:
         run: aws eks update-kubeconfig --name barilon --region us-east-1
         id: update_kubeconfig
 
-      - name: Deploy ingress resources to expose ArgoCD and Grafana
-        run: |
-            sed -e "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" \
-                -e "s|{{CERT_ARN_GRAFANA}}|${{ secrets.CERT_ARN_GRAFANA }}|g" \
-                ingress.yaml > ingress-final.yaml
-        id: deploy_ingress
+      # - name: Deploy ingress resources to expose ArgoCD and Grafana
+      #   run: |
+      #       sed -e "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" \
+      #           -e "s|{{CERT_ARN_GRAFANA}}|${{ secrets.CERT_ARN_GRAFANA }}|g" \
+      #           ingress.yaml > ingress-final.yaml
+      #   id: deploy_ingress
 
-      - name: Apply manifests
-        if: ${{ env.TF_destroy == 'false'}}
-        run: |
-          kubectl apply -f ingress-final.yaml
-          kubectl apply -f application.yaml
-        id: apply_manifests
+      # - name: Apply manifests
+      #   if: ${{ env.TF_destroy == 'false'}}
+      #   run: |
+      #     kubectl apply -f ingress-final.yaml
+      #     kubectl apply -f application.yaml
+      #   id: apply_manifests
 
       - name: delete manifests - will only run when the cluster needs to be destroyed
         if: ${{ env.TF_destroy == 'true' }}
