@@ -83,7 +83,7 @@ jobs:
 
       - name: Terraform Plan
         run: |
-           terraform state rm kubernetes_namespace.evoting 
+          #  terraform state rm kubernetes_namespace.evoting 
            terraform plan -no-color -input=false -lock=true  -out planfile --var-file=vars/dev/dev-env.tfvars 
         id: plan
 
