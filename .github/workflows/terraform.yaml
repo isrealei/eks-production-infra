@@ -16,7 +16,7 @@ on:
 env:
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   AWS_ROLE_NAME: ${{ secrets.AWS_ROLE_NAME }}
-  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}clea
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
   DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
   TF_destroy: true 
