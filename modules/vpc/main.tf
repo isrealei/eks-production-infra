@@ -23,7 +23,7 @@ resource "aws_vpc" "main" {
   )
 }
 
-# This will creates the subnets both public and Private subnets
+# This will creates the subnets  public, db  and Private subnets
 resource "aws_subnet" "private-subnets" {
   count                   = length(var.private_subnets_cidr)
   vpc_id                  = aws_vpc.main.id
@@ -32,13 +32,26 @@ resource "aws_subnet" "private-subnets" {
   map_public_ip_on_launch = false
   tags = merge(
     {
-      "Name" = "private-subnet-${count.index + 1}-${var.env}"
+      "Name" = "app-subnet-${count.index + 1}-${var.env}"
     },
     var.create_for_eks ? {
       "kubernetes.io/role/internal-elb"           = "1"
       "kubernetes.io/cluster/${var.cluster_name}" = "owned"
       "karpenter.sh/discovery"                    = var.cluster_name
     } : {}
+  )
+}
+
+resource "aws_subnet" "db-subnets" {
+  count                   = length(var.db_subnets_cidr)
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.db_subnets_cidr[count.index]
+  availability_zone       = var.azs[count.index]
+  map_public_ip_on_launch = false
+  tags = merge(
+    {
+      "Name" = "db-subnet-${count.index + 1}-${var.env}"
+    }
   )
 }
 
@@ -132,8 +145,13 @@ resource "aws_route_table_association" "priv" {
   route_table_id = aws_route_table.priv-rt.id
 }
 
+resource "aws_route_table_association" "db" {
+  count          = length(aws_subnet.db-subnets)
+  subnet_id      = aws_subnet.db-subnets[count.index].id
+  route_table_id = aws_route_table.priv-rt.id
+}
 
-resource "aws_security_group" "db_secuirity_group" {
+resource "aws_security_group" "db_security_group" {
   name        = "${var.vpc_name}-db-sg-${var.env}"
   description = "Database security group"
   vpc_id      = aws_vpc.main.id

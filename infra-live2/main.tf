@@ -11,6 +11,7 @@ module "vpc" {
   vpc_cidr             = var.vpc_cidr
   private_subnets_cidr = var.private_subnets_cidr
   public_subnets_cidr  = var.public_subnets_cidr
+  db_subnets_cidr      = var.db_subnets_cidr
   create_for_eks       = true
 }
 
@@ -49,7 +50,6 @@ module "eks_blueprints_addons" {
     }
   }
 
-
   enable_aws_load_balancer_controller = true
   aws_load_balancer_controller = {
     set = [
@@ -81,7 +81,7 @@ module "backend" {
   db_instance_class = var.database_config.db_instance_class
   db_engine         = var.database_config.db_engine
   db_engine_version = var.database_config.db_engine_version
-  db_subnet_ids     = module.vpc.private_subnet_ids
+  db_subnet_ids     = module.vpc.db_subnet_ids
   env               = var.env
   project_name      = var.database_config.project_name
   db_security_group = module.vpc.db_security_group_id

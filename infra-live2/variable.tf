@@ -33,6 +33,12 @@ variable "public_subnets_cidr" {
   description = "values for public subnets cidr"
 }
 
+variable "db_subnets_cidr" {
+  type        = list(string)
+  description = "values for database subnets cidr"
+
+}
+
 variable "create_for_eks" {
   type    = bool
   default = true

@@ -28,6 +28,11 @@ variable "public_subnets_cidr" {
   type        = list(string)
 }
 
+variable "db_subnets_cidr" {
+  description = "This is the list of database subnets"
+  type        = list(string)
+}
+
 variable "create_for_eks" {
   description = "specify if the cluster is created for eks"
   type        = bool
