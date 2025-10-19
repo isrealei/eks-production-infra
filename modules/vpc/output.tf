@@ -16,6 +16,6 @@ output "db_subnet_ids" {
 }
 
 output "db_security_group_id" {
-  value       = aws_security_group.db_secuirity_group.id
+  value       = aws_security_group.db_security_group.id
   description = "The ID of the database security group"
-}
+} 

@@ -21,7 +21,7 @@ env:
   DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
   TF_destroy: false
 
-# Needed to generate the oidc tokens and also to read the tokens
+# Needed to generate the oidc tokens and also to read the token
 permissions:
   id-token: write
   contents: read
