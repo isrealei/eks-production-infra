@@ -57,14 +57,14 @@ jobs:
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v3.1.2
 
-      # - name: Terraform Init
-      #   run: |
-      #     terraform init \
-      #       --backend-config="bucket=${BUCKET_TF_STATE}" \
-      #       --backend-config="key=dev/terraform.tfstate" \
-      #       --backend-config="region=us-east-1" \
-      #       --backend-config="use_lockfile=true" \
-      #   id: init
+      - name: Terraform Init
+        run: |
+          terraform init \
+            --backend-config="bucket=${BUCKET_TF_STATE}" \
+            --backend-config="key=dev/terraform.tfstate" \
+            --backend-config="region=us-east-1" \
+            --backend-config="use_lockfile=true" \
+        id: init
 
       # - name: Terraform format
       #   run: terraform fmt -check
