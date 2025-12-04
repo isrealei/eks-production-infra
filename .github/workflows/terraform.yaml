@@ -1,25 +1,25 @@
-name: IaC Deploy 
+name: IaC Deploy
 on:
   push:
     branches:
       - main
       - staging
     paths:
-      - 'infra-live2/**'
-      - '.github/workflows/terraform.yaml'
+      - "infra-live2/**"
+      - ".github/workflows/terraform.yaml"
   pull_request:
     branches:
       - main
     paths:
-      - 'infra-live2/**'
-  
+      - "infra-live2/**"
+
 env:
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   AWS_ROLE_NAME: ${{ secrets.AWS_ROLE_NAME }}
   AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
   DYNAMO_DB_LOCK: ${{ secrets.DYNAMO_DB_LOCK }}
-  TF_destroy: true
+  TF_destroy: false
 
 # Needed to generate the oidc tokens and also to read the token
 permissions:
@@ -34,19 +34,18 @@ jobs:
       run:
         shell: bash
         working-directory: ./infra-live2/
-   
-    steps:
 
+    steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Terraform security scan
         uses: aquasecurity/tfsec-action@v1.0.0
         with:
           soft_fail: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
           working_directory: ./infra-live2/
-  
+
       - name: Configure AWS credentials using OIDC to connect to AWS
         # This step assumes you have set up an IAM role for GitHub Actions to assume
         uses: aws-actions/configure-aws-credentials@v1
@@ -55,10 +54,9 @@ jobs:
           role-session-name: GitHubActionsSession
           aws-region: us-east-1
 
-      - name:  HashiCorp - Setup Terraform
+      - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v3.1.2
-        
-    
+
       - name: Terraform Init
         run: |
           terraform init \
@@ -67,7 +65,7 @@ jobs:
             --backend-config="region=us-east-1" \
             --backend-config="use_lockfile=true" \
         id: init
-        
+
       - name: Terraform format
         run: terraform fmt -check
         id: fmt
@@ -75,16 +73,16 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
         id: validate
-      
-      - name: Get dev.tfvars from aws secrete manager
+
+      - name: Get dev.tfvars or prod.tfvars from aws secrete manager
         run: |
           aws secretsmanager get-secret-value --secret-id dev.tfvars --query SecretString --output text > vars/dev/dev-env.tfvars
         id: get_tfvars
 
       - name: Terraform Plan
         run: |
-           terraform state rm kubernetes_namespace.evoting 
-           terraform plan -no-color -input=false -lock=true  -out planfile --var-file=vars/dev/dev-env.tfvars 
+          terraform state rm kubernetes_namespace.evoting 
+          terraform plan -no-color -input=false -lock=true  -out planfile --var-file=vars/dev/dev-env.tfvars
         id: plan
 
       - name: Terraform Apply
@@ -98,9 +96,9 @@ jobs:
 
       - name: Deploy ingress resources to expose ArgoCD and Grafana
         run: |
-            sed -e "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" \
-                -e "s|{{CERT_ARN_GRAFANA}}|${{ secrets.CERT_ARN_GRAFANA }}|g" \
-                ingress.yaml > ingress-final.yaml
+          sed -e "s|{{CERT_ARN}}|${{ secrets.CERT_ARN }}|g" \
+              -e "s|{{CERT_ARN_GRAFANA}}|${{ secrets.CERT_ARN_GRAFANA }}|g" \
+              ingress.yaml > ingress-final.yaml
         id: deploy_ingress
 
       - name: Apply manifests
@@ -121,12 +119,3 @@ jobs:
         run: terraform destroy --var-file=vars/dev/dev-env.tfvars -lock=false -auto-approve
         if: ${{ env.TF_destroy == 'true'}}
         id: destroy
-        
-  
-
-
-
-  
-
-
-        
