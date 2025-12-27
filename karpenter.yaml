@@ -18,14 +18,11 @@ spec:
         runAsGroup: 3000
         fsGroup: 2000
       containers:
-      - name: inflate
-        image: public.ecr.aws/eks-distro/kubernetes/pause:3.7
-        resources:
-          requests:
-            cpu: 1
-        securityContext:
-          allowPrivilegeEscalation: false
-
-
-
+        - name: inflate
+          image: public.ecr.aws/eks-distro/kubernetes/pause:3.7
+          resources:
+            requests:
+              cpu: 1
+          securityContext:
+            allowPrivilegeEscalation: false
 # kk
