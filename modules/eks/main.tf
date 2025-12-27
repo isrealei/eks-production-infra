@@ -50,6 +50,13 @@ resource "aws_eks_cluster" "cluster" {
   }
 }
 
+# this will tag the security group provisioned by eks with the right tag for karpenter to use
+resource "aws_ec2_tag" "cluster_sg_karpenter" {
+  resource_id = aws_eks_cluster.cluster.vpc_config[0].cluster_security_group_id
+  key         = "karpenter.sh/discovery"
+  value       = var.cluster_name
+}
+
 resource "aws_eks_addon" "add_ons" {
   cluster_name  = aws_eks_cluster.cluster.name
   addon_name    = "eks-pod-identity-agent"
