@@ -124,7 +124,7 @@ metadata:
 spec:
   role: ${module.karpenter.node_iam_role_arn}
   amiSelectorTerms:
-    - alias: "al2023@v20250807"
+    - alias: "al2023@latest"
   subnetSelectorTerms:
     - tags:
         karpenter.sh/discovery: ${module.eks.cluster_name} 
