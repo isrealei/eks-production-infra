@@ -63,67 +63,67 @@ resource "aws_eks_addon" "add_ons" {
   addon_version = "v1.3.8-eksbuild.2"
 }
 
-# create iam role and eks node node group
+# # create iam role and eks node node group
 
-resource "aws_iam_role" "node" {
-  name = "${var.cluster_name}-node-role"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-        Action = "sts:AssumeRole"
-      }
-    ]
-  })
+# resource "aws_iam_role" "node" {
+#   name = "${var.cluster_name}-node-role"
+#   assume_role_policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Effect = "Allow"
+#         Principal = {
+#           Service = "ec2.amazonaws.com"
+#         }
+#         Action = "sts:AssumeRole"
+#       }
+#     ]
+#   })
 
-}
+# }
 
 
-resource "aws_iam_role_policy_attachment" "node_policy" {
-  for_each = toset([
-    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
-    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-    "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-  ])
+# resource "aws_iam_role_policy_attachment" "node_policy" {
+#   for_each = toset([
+#     "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+#     "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+#     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+#     "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+#   ])
 
-  policy_arn = each.value
-  role       = aws_iam_role.node.name
-}
+#   policy_arn = each.value
+#   role       = aws_iam_role.node.name
+# }
 
-# This will create the node pool for the worker nodes
-resource "aws_eks_node_group" "node" {
-  for_each = var.node_groups
+# # This will create the node pool for the worker nodes
+# resource "aws_eks_node_group" "node" {
+#   for_each = var.node_groups
 
-  cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = each.key
-  node_role_arn   = aws_iam_role.node.arn
-  subnet_ids      = var.subnet_ids
-  instance_types  = each.value.instance_types
-  capacity_type   = each.value.capacity_type
-  scaling_config {
-    desired_size = each.value.scaling_config.desired_size
-    max_size     = each.value.scaling_config.max_size
-    min_size     = each.value.scaling_config.min_size
-  }
+#   cluster_name    = aws_eks_cluster.cluster.name
+#   node_group_name = each.key
+#   node_role_arn   = aws_iam_role.node.arn
+#   subnet_ids      = var.subnet_ids
+#   instance_types  = each.value.instance_types
+#   capacity_type   = each.value.capacity_type
+#   scaling_config {
+#     desired_size = each.value.scaling_config.desired_size
+#     max_size     = each.value.scaling_config.max_size
+#     min_size     = each.value.scaling_config.min_size
+#   }
 
-  # taint {
-  #   key    = "role"
-  #   value  = "karpenter"
-  #   effect = "NO_SCHEDULE"
-  # }
+#   # taint {
+#   #   key    = "role"
+#   #   value  = "karpenter"
+#   #   effect = "NO_SCHEDULE"
+#   # }
 
-  depends_on = [
-    aws_iam_role_policy_attachment.node_policy
-  ]
-  lifecycle {
-    ignore_changes = [scaling_config[0].desired_size]
-  }
-}
+#   depends_on = [
+#     aws_iam_role_policy_attachment.node_policy
+#   ]
+#   lifecycle {
+#     ignore_changes = [scaling_config[0].desired_size]
+#   }
+# }
 
 # This will create a fargate profile for stateless application
 
