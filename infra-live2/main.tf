@@ -68,7 +68,7 @@ module "eks_blueprints_addons" {
 }
 
 #########################################################################################################
-#                                      DATABASE AND CACHE PROVISIONING                                  #
+#                                      DATABASE AND CACHE PROVISIONING                                 #
 #########################################################################################################
 # this  module will create postgress and redis
 module "backend" {
