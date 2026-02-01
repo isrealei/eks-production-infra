@@ -82,7 +82,7 @@ jobs:
       - name: Terraform Plan
         run: |
           # terraform state rm kubernetes_namespace.evoting
-          terraform state rm module.eks_blueprints_addons.module.kube_prometheus_stack.helm_release.this[0]
+          terraform state list
           terraform plan -no-color -input=false -lock=true  -out planfile --var-file=vars/dev/dev-env.tfvars
         id: plan
 
