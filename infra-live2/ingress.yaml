@@ -13,7 +13,7 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: argocd.barilon.com
+    - host: argocd.barilon.com # Change to your domain or use an A record later
       http:
         paths:
           - path: /
@@ -42,7 +42,7 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: grafana.barilon.com
+    - host: grafana.barilon.com # Change to your domain or use an A record later
       http:
         paths:
           - path: /
