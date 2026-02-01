@@ -51,7 +51,7 @@ resource "kubernetes_namespace" "evoting" {
 data "aws_ecrpublic_authorization_token" "token" {}
 
 resource "helm_release" "karpenter" {
-  namespace           = "frontend"
+  namespace           = "karpenter"
   name                = "karpenter"
   repository          = "oci://public.ecr.aws/karpenter"
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name
