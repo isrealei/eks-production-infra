@@ -92,7 +92,7 @@ module "backend" {
 
 
 #########################################################################################################
-#                                      KARPENTER AWS ROLES AND NODE ROLES INSTALLATION                 #
+#                                      KARPENTER AWS ROLES AND NODE ROLES INSTALLATION                  #
 #########################################################################################################
 
 module "karpenter" {
